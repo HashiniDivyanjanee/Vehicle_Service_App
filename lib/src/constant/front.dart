@@ -1,4 +1,4 @@
 class AppFontFamily {
-  static const String primaryFont = 'Roboto';
-  static const String secondaryFont = 'OpenSans';
+  static const String primaryFont = "Roboto";
+  static const String secondaryFont = "Lobster";
 }
