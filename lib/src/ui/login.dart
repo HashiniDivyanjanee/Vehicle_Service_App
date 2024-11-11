@@ -33,7 +33,7 @@ class Login extends StatelessWidget {
               clipper: AppCustomeClipper(),
             ),
             const SizedBox(
-              height: 50,
+              height: 40,
             ),
             const Center(
               child: Text(
@@ -51,7 +51,7 @@ class Login extends StatelessWidget {
                   fontSize: AppThemes.SecondaryFontSize),
             ),
             const SizedBox(
-              height: 50,
+              height: 40,
             ),
             TextFormFieldComponent(
               controller: nameController,
@@ -90,7 +90,7 @@ class Login extends StatelessWidget {
                 textColor: Colors.white,
                 buttonColor: AppThemes.PrimaryColor,
                 callback: () {
-                  GoRouter.of(context).pushNamed(MyAppRouteConstants.homeRoute);
+                  GoRouter.of(context).pushNamed(MyAppRouteConstants.job_detailsRoute);
                 }),
           ],
         ),
