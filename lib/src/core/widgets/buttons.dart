@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 
 class ButtonComponent extends StatelessWidget {
-  String buttonText;
-  Color textColor;
-  Color buttonColor;
-  VoidCallback callback;
+  final String buttonText;
+  final Color textColor;
+  final Color buttonColor;
+  final VoidCallback callback;
 
   ButtonComponent(
-      this.buttonText, this.textColor, this.buttonColor, this.callback);
+      {super.key,
+      required this.buttonText,
+      required this.textColor,
+      required this.buttonColor,
+      required this.callback});
 
   @override
   Widget build(BuildContext context) {
@@ -16,11 +20,13 @@ class ButtonComponent extends StatelessWidget {
       child: Container(
           decoration: BoxDecoration(
             color: buttonColor,
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(18),
           ),
+          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 45),
           child: Text(
             buttonText,
-            style: TextStyle(fontSize: 16, color: textColor),
+            style: TextStyle(
+                fontSize: 15, color: textColor, fontWeight: FontWeight.bold),
           )),
     );
   }

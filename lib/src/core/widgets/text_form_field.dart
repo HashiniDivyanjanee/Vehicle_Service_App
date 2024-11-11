@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:vehicle_service_app/src/constant/themes.dart';
 
 class TextFormFieldComponent extends StatelessWidget {
-   final TextInputType? inputType;
-  final String hintText;
+  final TextInputType? inputType;
+
   final bool obscureText;
   final TextEditingController controller;
   final IconData prefixIcon;
   final TextCapitalization textCapitalization;
+  final String lableText;
 
   TextFormFieldComponent({
     super.key,
-    required this.hintText,
-    this.obscureText = false,
+    required this.lableText,
+    required this.obscureText,
     required this.controller,
     required this.prefixIcon,
     this.textCapitalization = TextCapitalization.none,
@@ -21,7 +23,7 @@ class TextFormFieldComponent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(bottom: 15, left: 15, right: 15),
+      margin: EdgeInsets.only(bottom: 15, left: 25, right: 25),
       child: TextField(
         enabled: true,
         controller: controller,
@@ -31,22 +33,22 @@ class TextFormFieldComponent extends StatelessWidget {
         obscureText: obscureText,
         keyboardType: inputType,
         textAlign: TextAlign.start,
-        style: TextStyle(color: Colors.black, fontSize: 16),
+        style: TextStyle(color: Colors.black, fontSize: 12),
         decoration: InputDecoration(
-            prefixIcon: Icon(prefixIcon),
+            prefixIcon: Icon(
+              prefixIcon,
+              color: AppThemes.PrimaryColor,
+            ),
             isDense: true,
-            labelText: hintText,
+            labelText: lableText,
+            filled: true,
+            fillColor: AppThemes.TextField_Bg_Color,
             counterText: "",
-            labelStyle: TextStyle(color: Colors.grey),
+            labelStyle: TextStyle(color: AppThemes.SecondTextColor, fontSize: 15),
             border: OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.green),
-                borderRadius: BorderRadius.all(Radius.circular(10))),
-            focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.green),
-                borderRadius: BorderRadius.all(Radius.circular(10))),
-            enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.green),
-                borderRadius: BorderRadius.all(Radius.circular(10)))),
+                borderRadius: BorderRadius.circular(30),
+                borderSide: BorderSide.none // remove frame
+                )),
       ),
     );
   }
