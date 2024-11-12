@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vehicle_service_app/src/constant/themes.dart';
+import 'package:vehicle_service_app/src/core/widgets/drop_down_menu_widget.dart';
 import 'package:vehicle_service_app/src/core/widgets/text_form_field.dart';
 
 class ServiceType extends StatelessWidget {
@@ -77,18 +78,8 @@ class ServiceType extends StatelessWidget {
             textCapitalization: TextCapitalization.words,
             obscureText: false,
           ),
-           SizedBox(
-            height: 5,
-          ),
-          TextFormFieldComponent(
-            controller: nameController,
-            lableText: "Username",
-            prefixIcon: Icons.person,
-            inputType: TextInputType.name,
-            textCapitalization: TextCapitalization.words,
-            obscureText: false,
-          ),
-          
+           
+         DropDownMenuWidget() 
         ],
       ),
     ));
