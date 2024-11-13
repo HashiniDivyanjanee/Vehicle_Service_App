@@ -22,16 +22,17 @@ class JobDetails extends StatelessWidget {
         body: Column(
           children: [
             TabBar(tabs: [
-              Tab(
-                text: "Service Type",
-              ),
-              Tab(
+               Tab(
                 text: "Vehical Information",
               ),
+              Tab(
+                text: "Business Details",
+              ),
+             
             ]),
             Expanded(
               child:
-                  TabBarView(children: [ServiceType(), VehicalInformation()]),
+                  TabBarView(children: [VehicalInformation(), ServiceType()]),
             ),
           ],
         ),

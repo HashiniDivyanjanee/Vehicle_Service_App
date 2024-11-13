@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:vehicle_service_app/src/constant/themes.dart';
 import 'package:vehicle_service_app/src/core/widgets/buttons.dart';
+import 'package:vehicle_service_app/src/core/widgets/drop_down_menu_widget.dart';
+import 'package:vehicle_service_app/src/core/widgets/select_date_field.dart';
 import 'package:vehicle_service_app/src/core/widgets/text_form_field.dart';
 
 class VehicalInformation extends StatelessWidget {
@@ -12,7 +14,7 @@ class VehicalInformation extends StatelessWidget {
         child: Padding(
       padding: const EdgeInsets.only(top: 30, left: 15, right: 15),
       child: Scrollbar(
-         thumbVisibility: true, 
+        thumbVisibility: true,
         child: SingleChildScrollView(
           child: Column(
             children: [
@@ -44,6 +46,8 @@ class VehicalInformation extends StatelessWidget {
               SizedBox(
                 height: 40,
               ),
+              DropDownMenuWidget(),
+              SelectDateField(),
               TextFormFieldComponent(
                 controller: nameController,
                 lableText: "Vehicle Number",
@@ -113,14 +117,6 @@ class VehicalInformation extends StatelessWidget {
                 obscureText: false,
                 maxLines: 1,
               ),
-               SizedBox(
-                height: 15,
-              ),
-               ButtonComponent(
-                  buttonText: "SAVE",
-                  textColor: Colors.white,
-                  buttonColor: AppThemes.PrimaryColor,
-                  callback: () {}),
             ],
           ),
         ),

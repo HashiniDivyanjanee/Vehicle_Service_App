@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vehicle_service_app/src/constant/front.dart';
 import 'package:vehicle_service_app/src/constant/themes.dart';
 
 class DropDownMenuWidget extends StatefulWidget {
@@ -20,20 +21,26 @@ class _DropDownMenuWidgetState extends State<DropDownMenuWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(bottom: 15, left: 25, right: 25),
+      margin: EdgeInsets.only(bottom: 15),
       decoration: BoxDecoration(
           color: AppThemes.TextField_Bg_Color,
           borderRadius: BorderRadius.circular(30)),
       child: Padding(
         padding: EdgeInsets.symmetric(
-          horizontal: 85,
+          horizontal: 87,
         ),
         child: DropdownButton(
           value: selectedItem,
           items: dropDownItems.map((String item) {
             return DropdownMenuItem<String>(
               value: item,
-              child: Text(item),
+              child: Text(
+                item,
+                style: TextStyle(
+                    color: AppThemes.SecondTextColor,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: AppFontFamily.HintTextFont),
+              ),
             );
           }).toList(),
           onChanged: (String? value) {

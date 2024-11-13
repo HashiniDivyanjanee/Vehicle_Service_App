@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:vehicle_service_app/src/config/routes/app_rout_cons.dart';
 import 'package:vehicle_service_app/src/constant/themes.dart';
 import 'package:vehicle_service_app/src/core/widgets/buttons.dart';
-import 'package:vehicle_service_app/src/core/widgets/drop_down_menu_widget.dart';
-import 'package:vehicle_service_app/src/core/widgets/select_date_field.dart';
 import 'package:vehicle_service_app/src/core/widgets/text_form_field.dart';
 
 class ServiceType extends StatelessWidget {
@@ -33,7 +29,7 @@ class ServiceType extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.only(left: 25),
                   child: Text(
-                    "SERVICE TYPE",
+                    "BUSINESS DETAILS",
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
@@ -56,8 +52,6 @@ class ServiceType extends StatelessWidget {
               SizedBox(
                 height: 40,
               ),
-              DropDownMenuWidget(),
-              SelectDateField(),
               TextFormFieldComponent(
                 controller: nameController,
                 lableText: "Claim Availble",
@@ -95,7 +89,7 @@ class ServiceType extends StatelessWidget {
                 height: 15,
               ),
               ButtonComponent(
-                  buttonText: "NEXT",
+                  buttonText: "SAVE",
                   textColor: Colors.white,
                   buttonColor: AppThemes.PrimaryColor,
                   callback: () {}),
