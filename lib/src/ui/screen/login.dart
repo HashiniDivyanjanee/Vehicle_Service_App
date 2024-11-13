@@ -56,18 +56,20 @@ class Login extends StatelessWidget {
             TextFormFieldComponent(
               controller: nameController,
               lableText: "Username",
-              prefixIcon: Icons.person,
+              suffixIcon: Icons.person,
               inputType: TextInputType.name,
               textCapitalization: TextCapitalization.words,
               obscureText: false,
+              maxLines: 1,
             ),
             TextFormFieldComponent(
               controller: pwController,
               lableText: "Password",
-              prefixIcon: Icons.lock,
+              suffixIcon: Icons.lock,
               inputType: TextInputType.visiblePassword,
               textCapitalization: TextCapitalization.characters,
               obscureText: true,
+              maxLines: 1,
             ),
             Container(
               margin: EdgeInsets.only(right: 25),
@@ -90,7 +92,8 @@ class Login extends StatelessWidget {
                 textColor: Colors.white,
                 buttonColor: AppThemes.PrimaryColor,
                 callback: () {
-                  GoRouter.of(context).pushNamed(MyAppRouteConstants.job_detailsRoute);
+                  GoRouter.of(context)
+                      .pushNamed(MyAppRouteConstants.job_detailsRoute);
                 }),
           ],
         ),
