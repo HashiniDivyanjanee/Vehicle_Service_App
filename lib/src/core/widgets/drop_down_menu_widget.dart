@@ -21,12 +21,12 @@ class _DropDownMenuWidgetState extends State<DropDownMenuWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(bottom: 15),
+      margin: const EdgeInsets.only(bottom: 15),
       decoration: BoxDecoration(
           color: AppThemes.TextField_Bg_Color,
           borderRadius: BorderRadius.circular(30)),
       child: Padding(
-        padding: EdgeInsets.symmetric(
+        padding: const EdgeInsets.symmetric(
           horizontal: 87,
         ),
         child: DropdownButton(
@@ -36,7 +36,7 @@ class _DropDownMenuWidgetState extends State<DropDownMenuWidget> {
               value: item,
               child: Text(
                 item,
-                style: TextStyle(
+                style: const TextStyle(
                     color: AppThemes.SecondTextColor,
                     fontWeight: FontWeight.bold,
                     fontFamily: AppFontFamily.HintTextFont),

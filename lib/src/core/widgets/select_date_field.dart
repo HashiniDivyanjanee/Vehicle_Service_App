@@ -28,12 +28,12 @@ class _SelectDateFieldState extends State<SelectDateField> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(bottom: 15, left: 25, right: 25),
+      margin: const EdgeInsets.only(bottom: 15, left: 25, right: 25),
       decoration: BoxDecoration(
           color: AppThemes.TextField_Bg_Color,
           borderRadius: BorderRadius.circular(30)),
       child: TextField(
-        style: TextStyle(
+        style: const TextStyle(
             fontSize: 15,
             color: AppThemes.SecondTextColor,
             fontWeight: FontWeight.normal),
@@ -42,11 +42,11 @@ class _SelectDateFieldState extends State<SelectDateField> {
             hintText: selectedDate != null
                 ? "${selectedDate!.day}-${selectedDate!.month}-${selectedDate!.year}"
                 : "Schedule Date",
-            suffixIcon: Icon(
+            suffixIcon: const Icon(
               Icons.calendar_month,
               color: AppThemes.PrimaryColor,
             ),
-            border: OutlineInputBorder(borderSide: BorderSide.none)),
+            border: const OutlineInputBorder(borderSide: BorderSide.none)),
         onTap: () => selectDate(context),
       ),
     );

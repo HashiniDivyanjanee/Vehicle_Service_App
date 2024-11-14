@@ -44,7 +44,7 @@ class Login extends StatelessWidget {
                     fontFamily: AppFontFamily.secondaryFont),
               ),
             ),
-            Text(
+            const Text(
               "Sign in to Continue",
               style: TextStyle(
                   color: AppThemes.SecondTextColor,
@@ -77,7 +77,7 @@ class Login extends StatelessWidget {
                   alignment: Alignment.topRight,
                   child: TextButton(
                       onPressed: () {},
-                      child: Text(
+                      child: const Text(
                         "Fogot your Password?",
                         style: TextStyle(
                             color: AppThemes.SecondTextColor,

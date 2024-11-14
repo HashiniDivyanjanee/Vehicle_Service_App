@@ -25,7 +25,7 @@ class TextFormFieldComponent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(bottom: 15, left: 25, right: 25),
+      margin: const EdgeInsets.only(bottom: 15, left: 25, right: 25),
       child: TextField(
         enabled: true,
         controller: controller,
@@ -35,7 +35,7 @@ class TextFormFieldComponent extends StatelessWidget {
         obscureText: obscureText,
         keyboardType: inputType,
         textAlign: TextAlign.start,
-        style: TextStyle(color: Colors.black, fontSize: 12),
+        style: const TextStyle(color: Colors.black, fontSize: 12),
         decoration: InputDecoration(
             suffixIcon: Icon(
               suffixIcon,
@@ -46,8 +46,10 @@ class TextFormFieldComponent extends StatelessWidget {
             filled: true,
             fillColor: AppThemes.TextField_Bg_Color,
             counterText: "",
-            labelStyle:
-                TextStyle(color: AppThemes.SecondTextColor, fontSize: 15, fontFamily: AppFontFamily.HintTextFont),
+            labelStyle: const TextStyle(
+                color: AppThemes.SecondTextColor,
+                fontSize: 15,
+                fontFamily: AppFontFamily.HintTextFont),
             border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(30),
                 borderSide: BorderSide.none // remove frame

@@ -12,7 +12,7 @@ class JobDetails extends StatelessWidget {
       length: 2,
       child: Scaffold(
         appBar: AppBar(
-          title: Text(
+          title:const Text(
             'Job Details',
             style: TextStyle(
                 color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
@@ -21,7 +21,7 @@ class JobDetails extends StatelessWidget {
         ),
         body: Column(
           children: [
-            TabBar(tabs: [
+           const TabBar(tabs: [
                Tab(
                 text: "Vehical Information",
               ),

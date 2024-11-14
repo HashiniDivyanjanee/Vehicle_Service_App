@@ -7,7 +7,7 @@ import 'package:vehicle_service_app/src/ui/screen/login.dart';
 
 final GoRouter router = GoRouter(
   errorPageBuilder: (context, state) {
-    return MaterialPage(
+    return const MaterialPage(
         child: Scaffold(
       body: Center(
         child: Text("This PAge is not Found!!"),
@@ -26,7 +26,7 @@ final GoRouter router = GoRouter(
       name: MyAppRouteConstants.homeRoute,
       path: '/home',
       pageBuilder: (context, state) {
-        return MaterialPage(child: Home());
+        return const MaterialPage(child: Home());
       },
     ),
     GoRoute(

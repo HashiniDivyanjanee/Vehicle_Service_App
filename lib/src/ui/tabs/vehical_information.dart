@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:vehicle_service_app/src/constant/themes.dart';
-import 'package:vehicle_service_app/src/core/widgets/buttons.dart';
 import 'package:vehicle_service_app/src/core/widgets/drop_down_menu_widget.dart';
 import 'package:vehicle_service_app/src/core/widgets/select_date_field.dart';
 import 'package:vehicle_service_app/src/core/widgets/text_form_field.dart';
@@ -18,7 +17,7 @@ class VehicalInformation extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              Align(
+            const  Align(
                 alignment: Alignment.topLeft,
                 child: Padding(
                   padding: const EdgeInsets.only(left: 25),
@@ -31,7 +30,7 @@ class VehicalInformation extends StatelessWidget {
                   ),
                 ),
               ),
-              Align(
+            const  Align(
                 alignment: Alignment.topLeft,
                 child: Padding(
                   padding: const EdgeInsets.only(left: 25),
@@ -43,7 +42,7 @@ class VehicalInformation extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(
+             const SizedBox(
                 height: 40,
               ),
               DropDownMenuWidget(),
@@ -57,7 +56,7 @@ class VehicalInformation extends StatelessWidget {
                 obscureText: false,
                 maxLines: 1,
               ),
-              SizedBox(
+             const SizedBox(
                 height: 5,
               ),
               TextFormFieldComponent(
@@ -69,7 +68,7 @@ class VehicalInformation extends StatelessWidget {
                 obscureText: false,
                 maxLines: 1,
               ),
-              SizedBox(
+             const SizedBox(
                 height: 5,
               ),
               TextFormFieldComponent(
@@ -81,7 +80,7 @@ class VehicalInformation extends StatelessWidget {
                 obscureText: false,
                 maxLines: 1,
               ),
-              SizedBox(
+             const SizedBox(
                 height: 5,
               ),
               TextFormFieldComponent(
@@ -93,7 +92,7 @@ class VehicalInformation extends StatelessWidget {
                 obscureText: false,
                 maxLines: 1,
               ),
-              SizedBox(
+             const SizedBox(
                 height: 5,
               ),
               TextFormFieldComponent(
@@ -105,7 +104,7 @@ class VehicalInformation extends StatelessWidget {
                 obscureText: false,
                 maxLines: 1,
               ),
-              SizedBox(
+             const SizedBox(
                 height: 5,
               ),
               TextFormFieldComponent(
