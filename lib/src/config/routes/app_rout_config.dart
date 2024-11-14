@@ -6,6 +6,14 @@ import 'package:vehicle_service_app/src/ui/screen/job_details.dart';
 import 'package:vehicle_service_app/src/ui/screen/login.dart';
 
 final GoRouter router = GoRouter(
+  errorPageBuilder: (context, state) {
+    return MaterialPage(
+        child: Scaffold(
+      body: Center(
+        child: Text("This PAge is not Found!!"),
+      ),
+    ));
+  },
   routes: [
     GoRoute(
       name: MyAppRouteConstants.loginRoute,
@@ -21,7 +29,7 @@ final GoRouter router = GoRouter(
         return MaterialPage(child: Home());
       },
     ),
-     GoRoute(
+    GoRoute(
       name: MyAppRouteConstants.job_detailsRoute,
       path: '/job_details',
       pageBuilder: (context, state) {
