@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:vehicle_service_app/src/config/routes/app_rout_cons.dart';
 import 'package:vehicle_service_app/src/constant/assest_path.dart';
 import 'package:vehicle_service_app/src/constant/front.dart';
@@ -35,14 +35,21 @@ class Login extends StatelessWidget {
             const SizedBox(
               height: 40,
             ),
-            const Center(
-              child: Text(
-                AppStrings.welcomeMessage,
-                style: TextStyle(
-                    color: AppThemes.PrimaryColor,
-                    fontSize: AppThemes.PrimaryFontSize,
-                    fontFamily: AppFontFamily.secondaryFont),
+            Shimmer.fromColors(
+              child: Center(
+                child: Text(
+                  AppStrings.welcomeMessage,
+                  style: TextStyle(
+                      color: AppThemes.PrimaryColor,
+                      fontSize: AppThemes.PrimaryFontSize,
+                      fontFamily: AppFontFamily.secondaryFont),
+                ),
               ),
+              baseColor: Colors.black12,
+              highlightColor: AppThemes.PrimaryColor,
+              enabled: true,
+              direction: ShimmerDirection.ltr,
+              period: Duration(seconds: 2),
             ),
             const Text(
               "Sign in to Continue",
