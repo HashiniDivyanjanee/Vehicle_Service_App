@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:vehicle_service_app/src/constant/themes.dart';
-import 'package:vehicle_service_app/src/ui/tabs/service_type.dart';
-import 'package:vehicle_service_app/src/ui/tabs/vehical_information.dart';
+import 'package:vehicle_service_app/src/presentation/tabs/service_type.dart';
+import 'package:vehicle_service_app/src/presentation/tabs/vehical_information.dart';
 
 class JobDetails extends StatelessWidget {
   JobDetails({super.key});

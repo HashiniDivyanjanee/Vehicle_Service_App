@@ -6,9 +6,9 @@ import 'package:vehicle_service_app/src/constant/assest_path.dart';
 import 'package:vehicle_service_app/src/constant/front.dart';
 import 'package:vehicle_service_app/src/constant/string.dart';
 import 'package:vehicle_service_app/src/constant/themes.dart';
-import 'package:vehicle_service_app/src/core/widgets/buttons.dart';
-import 'package:vehicle_service_app/src/core/widgets/clip_path_widgets.dart';
-import 'package:vehicle_service_app/src/core/widgets/text_form_field.dart';
+import 'package:vehicle_service_app/src/presentation/widgets/buttons.dart';
+import 'package:vehicle_service_app/src/presentation/widgets/clip_path_widgets.dart';
+import 'package:vehicle_service_app/src/presentation/widgets/text_form_field.dart';
 
 class Login extends StatelessWidget {
   Login({super.key});

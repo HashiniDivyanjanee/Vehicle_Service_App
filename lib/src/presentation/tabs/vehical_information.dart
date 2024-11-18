@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:vehicle_service_app/src/constant/themes.dart';
-import 'package:vehicle_service_app/src/core/widgets/drop_down_menu_widget.dart';
-import 'package:vehicle_service_app/src/core/widgets/select_date_field.dart';
-import 'package:vehicle_service_app/src/core/widgets/text_form_field.dart';
+import 'package:vehicle_service_app/src/presentation/widgets/drop_down_menu_widget.dart';
+import 'package:vehicle_service_app/src/presentation/widgets/select_date_field.dart';
+import 'package:vehicle_service_app/src/presentation/widgets/text_form_field.dart';
 
 class VehicalInformation extends StatelessWidget {
   VehicalInformation({super.key});
