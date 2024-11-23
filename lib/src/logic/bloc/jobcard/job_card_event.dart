@@ -1,7 +1,7 @@
 abstract class JobCardEvent {}
 
 class saveJobCard extends JobCardEvent {
-    final String Job_Number;
+  final String Job_Number;
   final String Cust_ID;
   final String Vehicle_Type;
   final String Brand;
@@ -56,9 +56,8 @@ class saveJobCard extends JobCardEvent {
   final String Job_Category_Type;
   final String Cust_VehicleNo;
 
-
   saveJobCard(
-            this.Job_Number,
+      this.Job_Number,
       this.Cust_ID,
       this.Vehicle_Type,
       this.Brand,
@@ -112,5 +111,4 @@ class saveJobCard extends JobCardEvent {
       this.Job_Priority,
       this.Job_Category_Type,
       this.Cust_VehicleNo);
-
 }

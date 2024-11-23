@@ -4,7 +4,7 @@ class ApiProvider {
   final Dio dio = Dio(BaseOptions(baseUrl: 'http://192.168.1.13:5000/api'));
 
   Future<void> saveJobCard(
-            String Job_Number,
+      String Job_Number,
       String Cust_ID,
       String Vehicle_Type,
       String Brand,
@@ -57,11 +57,10 @@ class ApiProvider {
       String Display_Status,
       String Job_Priority,
       String Job_Category_Type,
-      String Cust_VehicleNo)
- async {
+      String Cust_VehicleNo) async {
     try {
       final response = await dio.post('/jobcard', data: {
-               'Job_Number': Job_Number,
+        'Job_Number': Job_Number,
         'Cust_ID': Cust_ID,
         'Vehicle_Type': Vehicle_Type,
         'Brand': Brand,
@@ -115,7 +114,6 @@ class ApiProvider {
         'Job_Priority': Job_Priority,
         'Job_Category_Type': Job_Category_Type,
         'Cust_VehicleNo': Cust_VehicleNo
-
       });
       print('Response from Server: ${response.data}');
     } catch (e, stackTrace) {
@@ -123,5 +121,19 @@ class ApiProvider {
       print(stackTrace);
       rethrow;
     }
+    
   }
+  
+  
+  
+  Future<List<dynamic>> fetchPrimaryKeySetting() async {
+  try {
+    final response = await dio.get('/primarykeysetting'); 
+    return response.data;
+  } catch (e, stackTrace) {
+    print('Error fetching primary key settings: $e');
+    print(stackTrace);
+    rethrow;
+  }
+}
 }
