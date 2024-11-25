@@ -1,10 +1,10 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vehicle_service_app/src/data/repositories/primary_key_setting_Repo.dart';
-import 'package:vehicle_service_app/src/logic/bloc/primary_key_setting/primary_key_settimg_event.dart';
+import 'package:vehicle_service_app/src/logic/bloc/primary_key_setting/primary_key_setting_event.dart';
 import 'package:vehicle_service_app/src/logic/bloc/primary_key_setting/primary_key_setting_state.dart';
 
 class PrimaryKeySettingBloc
-    extends Bloc<PrimaryKeySettimgEvent, PrimaryKeySettingState> {
+    extends Bloc<PrimaryKeySettingEvent, PrimaryKeySettingState> {
   final PrimaryKeySettingRepo primaryKeySettingRepo;
 
   PrimaryKeySettingBloc(this.primaryKeySettingRepo)

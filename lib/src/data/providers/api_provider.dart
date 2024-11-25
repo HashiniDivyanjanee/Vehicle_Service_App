@@ -126,10 +126,10 @@ class ApiProvider {
   
   
   
-  Future<List<dynamic>> fetchPrimaryKeySetting() async {
+Future<List<dynamic>> fetchPrimaryKeySetting() async {
   try {
-    final response = await dio.get('/primarykeysetting'); 
-    return response.data;
+    final response = await dio.get('/primarykeysetting');
+    return response.data['data'] as List<dynamic>;
   } catch (e, stackTrace) {
     print('Error fetching primary key settings: $e');
     print(stackTrace);
