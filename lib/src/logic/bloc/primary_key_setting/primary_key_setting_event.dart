@@ -5,3 +5,11 @@ abstract class PrimaryKeySettingEvent extends Equatable {
 }
 
 class fetchPrimaryKeySetting extends PrimaryKeySettingEvent {}
+
+class UpdatePrimaryKeySetting extends PrimaryKeySettingEvent {
+  final int latestID;
+
+  UpdatePrimaryKeySetting(this.latestID);
+
+  List<Object> get props => [latestID];
+}

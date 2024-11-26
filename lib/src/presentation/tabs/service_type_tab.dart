@@ -95,6 +95,35 @@ class ServiceType extends StatelessWidget {
                           const SizedBox(
                             height: 40,
                           ),
+                          BlocBuilder<PrimaryKeySettingBloc,
+                              PrimaryKeySettingState>(
+                            builder: (context, state) {
+                              if (state is PrimaryKeySettingLoading) {
+                                return const Center(
+                                  child: CircularProgressIndicator(),
+                                );
+                              } else if (state is PrimaryKeySettingLoaded) {
+                                return ListView.builder(
+                                  shrinkWrap: true,
+                                  itemCount: state.primarykeysetting.length,
+                                  itemBuilder: (context, index) {
+                                    final setting =
+                                        state.primarykeysetting[index];
+
+                                    combinedValue =
+                                        '${setting['Prefix'] ?? ''}${((int.tryParse(setting['LatestID']?.toString() ?? '0') ?? 0) + 1)}';
+
+                                    return ListTile(
+                                      subtitle: Text(combinedValue),
+                                    );
+                                  },
+                                );
+                              } else if (state is PrimaryKeySettingError) {
+                                return Text("Error: ${state.message}");
+                              }
+                              return const Text("No Data Available");
+                            },
+                          ),
                           Center(child: DropDownMenuWidget()),
                           SelectDateField(),
                           TextFormFieldComponent(
@@ -241,6 +270,13 @@ class ServiceType extends StatelessWidget {
                                     textColor: Colors.white,
                                     buttonColor: AppThemes.PrimaryColor,
                                     callback: () {
+                                      final String latestIDString =
+                                          combinedValue;
+                                      final int latestID =
+                                          int.tryParse(latestIDString) ?? 0;
+                                      context.read<PrimaryKeySettingBloc>().add(
+                                          UpdatePrimaryKeySetting(latestID));
+
                                       final Job_Number = combinedValue;
                                       final Cust_ID = " ";
                                       final Vehicle_Type = " ";
@@ -360,35 +396,6 @@ class ServiceType extends StatelessWidget {
                                     }),
                           ),
                           const SizedBox(height: 20),
-                          BlocBuilder<PrimaryKeySettingBloc,
-                              PrimaryKeySettingState>(
-                            builder: (context, state) {
-                              if (state is PrimaryKeySettingLoading) {
-                                return const Center(
-                                  child: CircularProgressIndicator(),
-                                );
-                              } else if (state is PrimaryKeySettingLoaded) {
-                                return ListView.builder(
-                                  shrinkWrap: true,
-                                  itemCount: state.primarykeysetting.length,
-                                  itemBuilder: (context, index) {
-                                    final setting =
-                                        state.primarykeysetting[index];
-
-                                    combinedValue =
-                                        '${setting['Prefix'] ?? ''}${((int.tryParse(setting['LatestID']?.toString() ?? '0') ?? 0) + 1)}';
-
-                                    return ListTile(
-                                      subtitle: Text(combinedValue),
-                                    );
-                                  },
-                                );
-                              } else if (state is PrimaryKeySettingError) {
-                                return Text("Error: ${state.message}");
-                              }
-                              return const Text("No Data Available");
-                            },
-                          ),
                           const SizedBox(height: 20),
                         ],
                       ),

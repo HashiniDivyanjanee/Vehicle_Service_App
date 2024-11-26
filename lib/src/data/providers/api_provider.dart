@@ -121,19 +121,26 @@ class ApiProvider {
       print(stackTrace);
       rethrow;
     }
-    
   }
-  
-  
-  
-Future<List<dynamic>> fetchPrimaryKeySetting() async {
-  try {
-    final response = await dio.get('/primarykeysetting');
-    return response.data['data'] as List<dynamic>;
-  } catch (e, stackTrace) {
-    print('Error fetching primary key settings: $e');
-    print(stackTrace);
-    rethrow;
+
+  Future<List<dynamic>> fetchPrimaryKeySetting() async {
+    try {
+      final response = await dio.get('/primarykeysetting');
+      return response.data['data'] as List<dynamic>;
+    } catch (e, stackTrace) {
+      print('Error fetching primary key settings: $e');
+      print(stackTrace);
+      rethrow;
+    }
   }
-}
+
+  Future<void> updatePrimaryKeySetting(int latestID) async {
+    try {
+      await dio.put('/primarykeysetting', data:{'LatestID': latestID},);
+    } catch (e,stackTrace) {
+       print('Error fetching primary key settings: $e');
+      print(stackTrace);
+      rethrow;
+    }
+  }
 }

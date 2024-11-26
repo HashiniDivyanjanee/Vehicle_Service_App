@@ -19,5 +19,17 @@ class PrimaryKeySettingBloc
         emit(PrimaryKeySettingError(e.toString()));
       }
     });
+     on<UpdatePrimaryKeySetting>((event, emit) async {
+      try {
+        emit(PrimaryKeySettingLoading());
+        await primaryKeySettingRepo.updatePrimaryKeySetting(event.latestID);
+        final updatedPrimaryKeySetting =
+            await primaryKeySettingRepo.getPrimaryKeySetting();
+        emit(PrimaryKeySettingLoaded(updatedPrimaryKeySetting));
+      } catch (e) {
+        emit(PrimaryKeySettingError(e.toString()));
+      }
+    });
   }
+  
 }
