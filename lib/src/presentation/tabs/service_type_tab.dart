@@ -6,37 +6,65 @@ import 'package:vehicle_service_app/src/logic/bloc/primary_key_setting/primary_k
 import 'package:vehicle_service_app/src/logic/bloc/primary_key_setting/primary_key_setting_event.dart';
 import 'package:vehicle_service_app/src/logic/bloc/primary_key_setting/primary_key_setting_state.dart';
 import 'package:vehicle_service_app/src/presentation/widgets/buttons.dart';
-import 'package:vehicle_service_app/src/presentation/widgets/drop_down_menu_widget.dart';
+import 'package:vehicle_service_app/src/presentation/widgets/drop_down_list.dart';
 import 'package:vehicle_service_app/src/presentation/widgets/select_date_field.dart';
 import 'package:vehicle_service_app/src/presentation/widgets/text_form_field.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vehicle_service_app/src/data/providers/api_provider.dart';
 import 'package:vehicle_service_app/src/logic/bloc/jobcard/job_card_bloc.dart';
 import 'package:vehicle_service_app/src/logic/bloc/jobcard/job_card_state.dart';
+import 'package:vehicle_service_app/src/utils/datetime_utils.dart';
 
-class ServiceType extends StatelessWidget {
+class ServiceType extends StatefulWidget {
   ServiceType({super.key});
 
+  @override
+  State<ServiceType> createState() => _ServiceTypeState();
+}
+
+class _ServiceTypeState extends State<ServiceType> {
   final TextEditingController License_PlateController = TextEditingController();
+
   final TextEditingController MileageController = TextEditingController();
+
   final TextEditingController BrandController = TextEditingController();
+
   final TextEditingController ModelController = TextEditingController();
+
   final TextEditingController YearController = TextEditingController();
+
   final TextEditingController ColorController = TextEditingController();
+
   final TextEditingController InsuranceClaimController =
       TextEditingController();
+
   final TextEditingController Customer_NoteController = TextEditingController();
+
   final TextEditingController Office_NoteController = TextEditingController();
+
+  final TextEditingController CustomerNameController = TextEditingController();
+
+   final TextEditingController PhoneController = TextEditingController();
+
   String combinedValue = '';
+  DateTime? ScheduledDate;
+  String? selectedValue;
+
+  final List<String> dropdownItems = [
+    'RUNNING REPAIR',
+    'NORMAL SERVICE',
+    'BODY WASH',
+    'ACCIDENT REPAIR',
+    'FULL SERVICE'
+  ];
+
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        // JobCardBloc
         BlocProvider(
           create: (context) => JobCardBloc(ApiProvider()),
         ),
-        // PrimaryKeySettingBloc
         BlocProvider(
           create: (context) =>
               PrimaryKeySettingBloc(PrimaryKeySettingRepo(ApiProvider()))
@@ -57,6 +85,7 @@ class ServiceType extends StatelessWidget {
             }
           },
           builder: (context, state) {
+        
             return Container(
               child: Padding(
                 padding: const EdgeInsets.only(top: 30, left: 15, right: 15),
@@ -67,6 +96,57 @@ class ServiceType extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          Align(
+                            alignment: Alignment.topLeft,
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 25),
+                              child: Text(
+                                "CUSTOMER DETAILS",
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ),
+                          Align(
+                            alignment: Alignment.topLeft,
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 25),
+                              child: Text(
+                                "Enter Basic Details for Customer",
+                                style: TextStyle(
+                                    color: AppThemes.SecondTextColor,
+                                    fontSize: AppThemes.SecondaryFontSize),
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          TextFormFieldComponent(
+                            controller: CustomerNameController,
+                            lableText: "Customer Name",
+                            suffixIcon: Icons.person,
+                            inputType: TextInputType.name,
+                            textCapitalization: TextCapitalization.words,
+                            obscureText: false,
+                            maxLines: 1,
+                          ),
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          TextFormFieldComponent(
+                            controller: PhoneController,
+                            lableText: "Phone Number",
+                            suffixIcon: Icons.phone,
+                            inputType: TextInputType.phone,
+                            textCapitalization: TextCapitalization.words,
+                            obscureText: false,
+                            maxLines: 1,
+                          ),  SizedBox(
+                            height: 30,
+                          ),
                           Align(
                             alignment: Alignment.topLeft,
                             child: Padding(
@@ -92,9 +172,6 @@ class ServiceType extends StatelessWidget {
                               ),
                             ),
                           ),
-                          const SizedBox(
-                            height: 40,
-                          ),
                           BlocBuilder<PrimaryKeySettingBloc,
                               PrimaryKeySettingState>(
                             builder: (context, state) {
@@ -112,10 +189,6 @@ class ServiceType extends StatelessWidget {
 
                                     combinedValue =
                                         '${setting['Prefix'] ?? ''}${((int.tryParse(setting['LatestID']?.toString() ?? '0') ?? 0) + 1)}';
-
-                                    return ListTile(
-                                      subtitle: Text(combinedValue),
-                                    );
                                   },
                                 );
                               } else if (state is PrimaryKeySettingError) {
@@ -124,8 +197,23 @@ class ServiceType extends StatelessWidget {
                               return const Text("No Data Available");
                             },
                           ),
-                          Center(child: DropDownMenuWidget()),
-                          SelectDateField(),
+                          DropDownList<String>(
+                            items: dropdownItems,
+                            value: selectedValue,
+                            hint: 'Select Job Type',
+                            onChanged: (value) {
+                              setState(() {
+                                selectedValue = value;
+                              });
+                            },
+                          ),
+                          SelectDateField(
+                            onDateSelected: (date) {
+                              setState(() {
+                                ScheduledDate = date;
+                              });
+                            },
+                          ),
                           TextFormFieldComponent(
                             controller: License_PlateController,
                             lableText: "Vehicle Number",
@@ -270,35 +358,38 @@ class ServiceType extends StatelessWidget {
                                     textColor: Colors.white,
                                     buttonColor: AppThemes.PrimaryColor,
                                     callback: () {
-                                      final String latestIDString =
-                                          combinedValue;
-                                      final int latestID =
-                                          int.tryParse(latestIDString) ?? 0;
+                                      final int currentID = int.tryParse(
+                                              combinedValue.replaceAll(
+                                                  RegExp(r'\D'), '')) ??
+                                          0;
+                                      final int latestID = currentID;
+                                      combinedValue =
+                                          '${combinedValue.replaceAll(RegExp(r'\d+'), '')}$latestID';
                                       context.read<PrimaryKeySettingBloc>().add(
                                           UpdatePrimaryKeySetting(latestID));
 
                                       final Job_Number = combinedValue;
                                       final Cust_ID = " ";
-                                      final Vehicle_Type = " ";
+                                      final Vehicle_Type = BrandController.text;
                                       final Brand = BrandController.text;
                                       final Model = ModelController.text;
                                       final License_Plate =
                                           License_PlateController.text;
                                       final Mileage = MileageController.text;
-                                      final Job_Type = " ";
+                                      final Job_Type = selectedValue;
                                       final Date = " ";
                                       final Time = " ";
                                       final Assigned_emp_Id = " ";
-                                      final Current_Status = " ";
+                                      final Current_Status = "JOB IN";
                                       final Current_Location = " ";
-                                      final job_barcode = " ";
+                                      final job_barcode = combinedValue;
                                       final Job_Name1 = " ";
                                       final Job_Name2 = " ";
-                                      final CreateDate = " ";
-                                      final CreateTime = " ";
+                                      final CreateDate = Current_Date;
+                                      final CreateTime = Current_Time;
                                       final Invoice_ID = " ";
-                                      final Scheduled_Date = " ";
-                                      final Scheduled_Time = " ";
+                                      final Scheduled_Date = ScheduledDate;
+                                      final Scheduled_Time = Current_Time;
                                       final Customer_Note =
                                           Customer_NoteController.text;
                                       final Office_Note =
@@ -325,9 +416,9 @@ class ServiceType extends StatelessWidget {
                                       final Due_Amount = 0.0;
                                       final Change_Amount = 0.0;
                                       final Payment_Methods = " ";
-                                      final Payment_Status = " ";
-                                      final Cust_Name = " ";
-                                      final Cust_Phone = " ";
+                                      final Payment_Status = "Unpaid";
+                                      final Cust_Name = CustomerNameController.text;
+                                      final Cust_Phone = PhoneController.text;
                                       final FuelLevel = " ";
                                       final EstimateAmount = 0.0;
                                       final ShortName = " ";
@@ -345,7 +436,7 @@ class ServiceType extends StatelessWidget {
                                               Model,
                                               License_Plate,
                                               Mileage,
-                                              Job_Type,
+                                              Job_Type.toString(),
                                               Date,
                                               Time,
                                               Assigned_emp_Id,
@@ -357,7 +448,7 @@ class ServiceType extends StatelessWidget {
                                               CreateDate,
                                               CreateTime,
                                               Invoice_ID,
-                                              Scheduled_Date,
+                                              Scheduled_Date.toString(),
                                               Scheduled_Time,
                                               Customer_Note,
                                               Office_Note,
@@ -384,8 +475,8 @@ class ServiceType extends StatelessWidget {
                                               Change_Amount.toString(),
                                               Payment_Methods,
                                               Payment_Status,
-                                              Cust_Name,
-                                              Cust_Phone,
+                                              Cust_Name.toString(),
+                                              Cust_Phone.toString(),
                                               FuelLevel,
                                               EstimateAmount.toString(),
                                               ShortName,
@@ -395,8 +486,7 @@ class ServiceType extends StatelessWidget {
                                               Cust_VehicleNo));
                                     }),
                           ),
-                          const SizedBox(height: 20),
-                          const SizedBox(height: 20),
+                          const SizedBox(height: 40),
                         ],
                       ),
                     ),

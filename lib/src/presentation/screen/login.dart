@@ -24,7 +24,7 @@ class Login extends StatelessWidget {
             ClipPath(
               child: Container(
                   height: 330,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     image: DecorationImage(
                       image: AssetImage(AssestPath.background),
                       fit: BoxFit.cover,

@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:vehicle_service_app/src/constant/themes.dart';
 
 class SelectDateField extends StatefulWidget {
-  SelectDateField({super.key});
+   final ValueChanged<DateTime?> onDateSelected; 
+    const SelectDateField({super.key, required this.onDateSelected});
+
 
   @override
   _SelectDateFieldState createState() => _SelectDateFieldState();
@@ -22,6 +24,7 @@ class _SelectDateFieldState extends State<SelectDateField> {
       setState(() {
         selectedDate = pickedDate;
       });
+      widget.onDateSelected(pickedDate);
     }
   }
 
