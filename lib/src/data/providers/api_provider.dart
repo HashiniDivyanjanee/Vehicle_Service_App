@@ -3,6 +3,9 @@ import 'package:dio/dio.dart';
 class ApiProvider {
   final Dio dio = Dio(BaseOptions(baseUrl: 'http://192.168.1.13:5000/api'));
 
+
+// POST API
+
   Future<void> saveJobCard(
       String Job_Number,
       String Cust_ID,
@@ -123,6 +126,26 @@ class ApiProvider {
     }
   }
 
+  Future<void> saveCustomer(String NIC, String Cust_Name, String Phone,
+      String Phone_Land, String Address1) async {
+    try {
+      final response = await dio.post('/customer', data: {
+        'NIC': NIC,
+        'Cust_Name': Cust_Name,
+        'Phone': Phone,
+        'Phone_Land': Phone_Land,
+        'Address1': Address1,
+      });
+      print('Response from Server:${response.data}');
+    } catch (e, stackTrace) {
+      print('Error Saving JobCard: $e');
+      print(stackTrace);
+      rethrow;
+    }
+  }
+
+
+// GET API
   Future<List<dynamic>> fetchPrimaryKeySetting() async {
     try {
       final response = await dio.get('/primarykeysetting');
@@ -134,11 +157,16 @@ class ApiProvider {
     }
   }
 
+
+// PUT API
   Future<void> updatePrimaryKeySetting(int latestID) async {
     try {
-      await dio.put('/primarykeysetting', data:{'LatestID': latestID},);
-    } catch (e,stackTrace) {
-       print('Error fetching primary key settings: $e');
+      await dio.put(
+        '/primarykeysetting',
+        data: {'LatestID': latestID},
+      );
+    } catch (e, stackTrace) {
+      print('Error fetching primary key settings: $e');
       print(stackTrace);
       rethrow;
     }

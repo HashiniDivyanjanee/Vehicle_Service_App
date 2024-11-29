@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:vehicle_service_app/src/constant/themes.dart';
 import 'package:vehicle_service_app/src/data/repositories/primary_key_setting_Repo.dart';
+import 'package:vehicle_service_app/src/logic/bloc/customer/customer_bloc.dart';
 import 'package:vehicle_service_app/src/logic/bloc/jobcard/job_card_event.dart';
 import 'package:vehicle_service_app/src/logic/bloc/primary_key_setting/primary_key_setting_bloc.dart';
 import 'package:vehicle_service_app/src/logic/bloc/primary_key_setting/primary_key_setting_event.dart';
@@ -44,7 +45,7 @@ class _ServiceTypeState extends State<ServiceType> {
 
   final TextEditingController CustomerNameController = TextEditingController();
 
-   final TextEditingController PhoneController = TextEditingController();
+  final TextEditingController PhoneController = TextEditingController();
 
   String combinedValue = '';
   DateTime? ScheduledDate;
@@ -85,7 +86,6 @@ class _ServiceTypeState extends State<ServiceType> {
             }
           },
           builder: (context, state) {
-        
             return Container(
               child: Padding(
                 padding: const EdgeInsets.only(top: 30, left: 15, right: 15),
@@ -144,7 +144,8 @@ class _ServiceTypeState extends State<ServiceType> {
                             textCapitalization: TextCapitalization.words,
                             obscureText: false,
                             maxLines: 1,
-                          ),  SizedBox(
+                          ),
+                          SizedBox(
                             height: 30,
                           ),
                           Align(
@@ -417,7 +418,8 @@ class _ServiceTypeState extends State<ServiceType> {
                                       final Change_Amount = 0.0;
                                       final Payment_Methods = " ";
                                       final Payment_Status = "Unpaid";
-                                      final Cust_Name = CustomerNameController.text;
+                                      final Cust_Name =
+                                          CustomerNameController.text;
                                       final Cust_Phone = PhoneController.text;
                                       final FuelLevel = " ";
                                       final EstimateAmount = 0.0;
