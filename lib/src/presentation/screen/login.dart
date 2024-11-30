@@ -24,7 +24,7 @@ class Login extends StatelessWidget {
             ClipPath(
               child: Container(
                   height: 330,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     image: DecorationImage(
                       image: AssetImage(AssestPath.background),
                       fit: BoxFit.cover,
@@ -100,7 +100,7 @@ class Login extends StatelessWidget {
                 buttonColor: AppThemes.PrimaryColor,
                 callback: () {
                   GoRouter.of(context)
-                      .pushNamed(MyAppRouteConstants.job_detailsRoute);
+                      .pushNamed(MyAppRouteConstants.homeRoute);
                 }),
           ],
         ),

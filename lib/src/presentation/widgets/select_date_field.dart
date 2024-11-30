@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:vehicle_service_app/src/constant/themes.dart';
 
 class SelectDateField extends StatefulWidget {
-  SelectDateField({super.key});
+   final ValueChanged<DateTime?> onDateSelected; 
+    const SelectDateField({super.key, required this.onDateSelected});
+
 
   @override
   _SelectDateFieldState createState() => _SelectDateFieldState();
@@ -15,13 +17,17 @@ class _SelectDateFieldState extends State<SelectDateField> {
     final DateTime? pickedDate = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
-      firstDate: DateTime(2000),
+
+
+      
+      firstDate: DateTime(2022),
       lastDate: DateTime(2100),
     );
     if (pickedDate != null && pickedDate != selectedDate) {
       setState(() {
         selectedDate = pickedDate;
       });
+      widget.onDateSelected(pickedDate);
     }
   }
 

@@ -13,12 +13,12 @@ class JobDetails extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           title: const Text(
-            'Job Details',
+            'Job Card Details',
             style: TextStyle(
                 color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
           ),
           backgroundColor: AppThemes.PrimaryColor,
-          bottom: TabBar(tabs: [
+          bottom: const TabBar(tabs: [
             Tab(
               text: "Vehical Information",
             ),
@@ -29,8 +29,8 @@ class JobDetails extends StatelessWidget {
         ),
         body: TabBarView(
           children: [
-            VehicalInformation(),
             ServiceType(),
+            VehicalInformation(),
           ],
         ),
       ),
