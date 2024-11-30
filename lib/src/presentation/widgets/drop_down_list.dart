@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+
 import 'package:vehicle_service_app/src/constant/front.dart';
 import 'package:vehicle_service_app/src/constant/themes.dart';
 
@@ -11,7 +11,7 @@ class DropDownList<T> extends StatelessWidget {
   final ValueChanged<T?> onChanged;
   final double? elevation;
 
-  const DropDownList({
+  const DropDownList({ 
     this.hint,
     this.items = const [],
     required this.value,
@@ -31,12 +31,12 @@ class DropDownList<T> extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 2),
         child: DropdownButtonFormField<T>(
           value: value,
-          decoration: InputDecoration(
+          decoration: const InputDecoration(
             border: OutlineInputBorder(
               borderSide: BorderSide.none,
             ),
           ),
-          hint: hint != null ? Text(hint!, style: TextStyle(  color: AppThemes.SecondTextColor, fontSize: 15,
+          hint: hint != null ? Text(hint!, style: const TextStyle(  color: AppThemes.SecondTextColor, fontSize: 15,
                     fontFamily: AppFontFamily.HintTextFont),) : null,
           items: items.map((item) {
             return DropdownMenuItem<T>(
@@ -45,14 +45,14 @@ class DropDownList<T> extends StatelessWidget {
                 itemLabelBuilder != null
                     ? itemLabelBuilder!(item)
                     : item.toString(),
-                style: TextStyle(
+                style: const TextStyle(
                     color: AppThemes.SecondTextColor,fontSize: 14,
                     fontFamily: AppFontFamily.HintTextFont),
               ),
             );
           }).toList(),
           onChanged: onChanged,
-          dropdownColor: Color.fromARGB(255, 229, 238, 241),
+          dropdownColor: const Color.fromARGB(255, 229, 238, 241),
           elevation: elevation!.toInt(),
         ),
       ),

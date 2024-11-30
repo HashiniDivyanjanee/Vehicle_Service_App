@@ -19,7 +19,7 @@ class TextFormFieldComponent extends StatelessWidget {
     required this.controller,
     required this.suffixIcon,
     this.textCapitalization = TextCapitalization.none,
-    this.inputType,
+    required this.inputType,
   });
 
   @override
@@ -34,6 +34,7 @@ class TextFormFieldComponent extends StatelessWidget {
         maxLines: maxLines,
         obscureText: obscureText,
         keyboardType: inputType,
+      
         textAlign: TextAlign.start,
         style: const TextStyle(color: Colors.black, fontSize: 12),
         decoration: InputDecoration(

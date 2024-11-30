@@ -8,12 +8,14 @@ import 'package:vehicle_service_app/src/logic/bloc/primary_key_setting/primary_k
 import 'package:vehicle_service_app/src/logic/bloc/primary_key_setting/primary_key_setting_state.dart';
 import 'package:vehicle_service_app/src/presentation/widgets/buttons.dart';
 import 'package:vehicle_service_app/src/presentation/widgets/drop_down_list.dart';
+import 'package:vehicle_service_app/src/presentation/widgets/second_title.dart';
 import 'package:vehicle_service_app/src/presentation/widgets/select_date_field.dart';
 import 'package:vehicle_service_app/src/presentation/widgets/text_form_field.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vehicle_service_app/src/data/providers/api_provider.dart';
 import 'package:vehicle_service_app/src/logic/bloc/jobcard/job_card_bloc.dart';
 import 'package:vehicle_service_app/src/logic/bloc/jobcard/job_card_state.dart';
+import 'package:vehicle_service_app/src/presentation/widgets/main_title_widget.dart';
 import 'package:vehicle_service_app/src/utils/datetime_utils.dart';
 
 class ServiceType extends StatefulWidget {
@@ -96,32 +98,13 @@ class _ServiceTypeState extends State<ServiceType> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Align(
-                            alignment: Alignment.topLeft,
-                            child: Padding(
-                              padding: const EdgeInsets.only(left: 25),
-                              child: Text(
-                                "CUSTOMER DETAILS",
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
+                          const Title_Widget(
+                            title: 'CUSTOMER DETAILS',
                           ),
-                          Align(
-                            alignment: Alignment.topLeft,
-                            child: Padding(
-                              padding: const EdgeInsets.only(left: 25),
-                              child: Text(
-                                "Enter Basic Details for Customer",
-                                style: TextStyle(
-                                    color: AppThemes.SecondTextColor,
-                                    fontSize: AppThemes.SecondaryFontSize),
-                              ),
-                            ),
+                          const Secont_Title(
+                            second_title: 'Enter Customer Details',
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 20,
                           ),
                           TextFormFieldComponent(
@@ -145,41 +128,22 @@ class _ServiceTypeState extends State<ServiceType> {
                             obscureText: false,
                             maxLines: 1,
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 30,
                           ),
-                          Align(
-                            alignment: Alignment.topLeft,
-                            child: Padding(
-                              padding: const EdgeInsets.only(left: 25),
-                              child: Text(
-                                "VEHICLE INFORMATION",
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
+                          const Title_Widget(
+                            title: 'VEHICLE INFORMATION',
                           ),
-                          const Align(
-                            alignment: Alignment.topLeft,
-                            child: Padding(
-                              padding: const EdgeInsets.only(left: 25),
-                              child: Text(
-                                "Enter Vehicle Details",
-                                style: TextStyle(
-                                    color: AppThemes.SecondTextColor,
-                                    fontSize: AppThemes.SecondaryFontSize),
-                              ),
-                            ),
+                          const Secont_Title(
+                            second_title: 'Enter Vehicle Details',
                           ),
                           BlocBuilder<PrimaryKeySettingBloc,
                               PrimaryKeySettingState>(
                             builder: (context, state) {
                               if (state is PrimaryKeySettingLoading) {
                                 return const Center(
-                                  child: CircularProgressIndicator(),
-                                );
+                                    child: CircularProgressIndicator(),
+                                    );
                               } else if (state is PrimaryKeySettingLoaded) {
                                 return ListView.builder(
                                   shrinkWrap: true,
@@ -287,32 +251,14 @@ class _ServiceTypeState extends State<ServiceType> {
                           const SizedBox(
                             height: 30,
                           ),
-                          Align(
-                            alignment: Alignment.topLeft,
-                            child: Padding(
-                              padding: const EdgeInsets.only(left: 25),
-                              child: Text(
-                                "BUSINESS DETAILS",
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
+                          const Title_Widget(
+                            title: 'BUSINESS DETAILS',
                           ),
-                          Align(
-                            alignment: Alignment.topLeft,
-                            child: Padding(
-                              padding: const EdgeInsets.only(left: 25),
-                              child: Text(
-                                "Enter Basic Details for new work order",
-                                style: TextStyle(
-                                    color: AppThemes.SecondTextColor,
-                                    fontSize: AppThemes.SecondaryFontSize),
-                              ),
-                            ),
+                          const Secont_Title(
+                            second_title:
+                                'Enter Basic Details for new work order',
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 40,
                           ),
                           TextFormFieldComponent(
@@ -336,7 +282,7 @@ class _ServiceTypeState extends State<ServiceType> {
                             obscureText: false,
                             maxLines: 1,
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 5,
                           ),
                           TextFormFieldComponent(
@@ -348,7 +294,7 @@ class _ServiceTypeState extends State<ServiceType> {
                             obscureText: false,
                             maxLines: 5,
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 15,
                           ),
                           Center(
