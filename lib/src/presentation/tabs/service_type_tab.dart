@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vehicle_service_app/src/constant/themes.dart';
 import 'package:vehicle_service_app/src/data/repositories/primary_key_setting_Repo.dart';
-import 'package:vehicle_service_app/src/logic/bloc/customer/customer_bloc.dart';
 import 'package:vehicle_service_app/src/logic/bloc/jobcard/job_card_event.dart';
 import 'package:vehicle_service_app/src/logic/bloc/primary_key_setting/primary_key_setting_bloc.dart';
 import 'package:vehicle_service_app/src/logic/bloc/primary_key_setting/primary_key_setting_event.dart';
@@ -27,26 +26,16 @@ class ServiceType extends StatefulWidget {
 
 class _ServiceTypeState extends State<ServiceType> {
   final TextEditingController License_PlateController = TextEditingController();
-
   final TextEditingController MileageController = TextEditingController();
-
   final TextEditingController BrandController = TextEditingController();
-
   final TextEditingController ModelController = TextEditingController();
-
   final TextEditingController YearController = TextEditingController();
-
   final TextEditingController ColorController = TextEditingController();
-
   final TextEditingController InsuranceClaimController =
       TextEditingController();
-
   final TextEditingController Customer_NoteController = TextEditingController();
-
   final TextEditingController Office_NoteController = TextEditingController();
-
   final TextEditingController CustomerNameController = TextEditingController();
-
   final TextEditingController PhoneController = TextEditingController();
 
   String combinedValue = '';
@@ -60,6 +49,20 @@ class _ServiceTypeState extends State<ServiceType> {
     'ACCIDENT REPAIR',
     'FULL SERVICE'
   ];
+
+  clear() {
+    License_PlateController.clear();
+    MileageController.clear();
+    BrandController.clear();
+    ModelController.clear();
+    YearController.clear();
+    ColorController.clear();
+    InsuranceClaimController.clear();
+    Customer_NoteController.clear();
+    Office_NoteController.clear();
+    CustomerNameController.clear();
+    PhoneController.clear();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -127,6 +130,10 @@ class _ServiceTypeState extends State<ServiceType> {
                             textCapitalization: TextCapitalization.words,
                             obscureText: false,
                             maxLines: 1,
+                            onChanged: () {
+                              
+                            },
+                            
                           ),
                           const SizedBox(
                             height: 30,
@@ -142,8 +149,8 @@ class _ServiceTypeState extends State<ServiceType> {
                             builder: (context, state) {
                               if (state is PrimaryKeySettingLoading) {
                                 return const Center(
-                                    child: CircularProgressIndicator(),
-                                    );
+                                  child: CircularProgressIndicator(),
+                                );
                               } else if (state is PrimaryKeySettingLoaded) {
                                 return ListView.builder(
                                   shrinkWrap: true,
@@ -432,6 +439,8 @@ class _ServiceTypeState extends State<ServiceType> {
                                               Job_Priority,
                                               Job_Category_Type,
                                               Cust_VehicleNo));
+
+                                      clear();
                                     }),
                           ),
                           const SizedBox(height: 40),

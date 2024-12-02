@@ -10,7 +10,9 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBarWidget(appBarName: 'Dashboard',),
+      appBar: const AppBarWidget(
+        appBarName: 'Dashboard',
+      ),
       body: Padding(
         padding: EdgeInsets.all(30.0),
         child: Scrollbar(
@@ -45,18 +47,12 @@ class Home extends StatelessWidget {
                   Card_Widget(
                     cardname: 'TEST 1',
                     card_icon: Icons.text_snippet,
-                    callback: () {
-                      GoRouter.of(context)
-                          .pushNamed(MyAppRouteConstants.job_detailsRoute);
-                    },
+                    callback: () {},
                   ),
                   Card_Widget(
                       cardname: 'TEST 2',
                       card_icon: Icons.safety_check,
-                      callback: () {
-                        GoRouter.of(context)
-                            .pushNamed(MyAppRouteConstants.job_detailsRoute);
-                      }),
+                      callback: () {}),
                 ],
               ),
               const SizedBox(
@@ -68,17 +64,11 @@ class Home extends StatelessWidget {
                   Card_Widget(
                       cardname: 'TEST 3',
                       card_icon: Icons.dangerous,
-                      callback: () {
-                        GoRouter.of(context)
-                            .pushNamed(MyAppRouteConstants.job_detailsRoute);
-                      }),
+                      callback: () {}),
                   Card_Widget(
                       cardname: 'TEST 4',
                       card_icon: Icons.kayaking,
-                      callback: () {
-                        GoRouter.of(context)
-                            .pushNamed(MyAppRouteConstants.job_detailsRoute);
-                      }),
+                      callback: () {}),
                 ],
               ),
               const SizedBox(
@@ -90,17 +80,11 @@ class Home extends StatelessWidget {
                   Card_Widget(
                       cardname: 'TEST 5',
                       card_icon: Icons.wallet,
-                      callback: () {
-                        GoRouter.of(context)
-                            .pushNamed(MyAppRouteConstants.job_detailsRoute);
-                      }),
+                      callback: () {}),
                   Card_Widget(
                       cardname: 'TEST 6',
                       card_icon: Icons.face,
-                      callback: () {
-                        GoRouter.of(context)
-                            .pushNamed(MyAppRouteConstants.job_detailsRoute);
-                      }),
+                      callback: () {}),
                 ],
               ),
             ]),
