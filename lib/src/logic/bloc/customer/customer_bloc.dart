@@ -50,21 +50,22 @@ class CustomerBloc extends Bloc<CustomerEvent, CustomerState> {
         emit(CustomerAdded());
       } catch (e) {
         emit(CustomerError(e.toString()));
+        
       }
     });
-    on<fetchCustomerByPhone>((event, emit) async {
-      emit(CusatomerLoading());
-      try {
-        var customer = await apiProvider.getCustomerByPhone(event.phoneNumber);
-        if (customer!=null) {
-          // emit(CustomerLoaded(customerName: customer.name));
 
-        } else {
-          emit(CustomerError('Customer Not Found'));
-        }
-      } catch (e) {
-        emit(CustomerError(e.toString()));
-      }
-    });
+    on<fetchCustomerPhones>(_onFetchPhones);
+    
   }
+  Future<void> _onFetchPhones(fetchCustomerPhones event, Emitter<CustomerState> emit) async {
+    emit(CusatomerLoading());
+    try {
+      final phones = await apiProvider.fetchCustomerByPhone(event.query);
+      // emit(CustomerLoaded(phone));
+    } catch (e) {
+      emit(CustomerError(e.toString()));
+    }
+  }
+
+ 
 }

@@ -217,14 +217,15 @@ class ApiProvider {
     }
   }
 
-  Future<List<dynamic>> getCustomerByPhone(String phoneNumber) async {
+  Future<Map<String, dynamic>> fetchCustomerByPhone(String phone) async {
     try {
-      final response = await dio.get('/customer/$phoneNumber');
-      return response.data['data'] as List<dynamic>;
-    } catch (e, stackTrace) {
-      print('Error fetching primary key settings: $e');
-      print(stackTrace);
-      rethrow;
+      final response = await dio.get(
+        '/employee', // This assumes the backend route is '/employee'
+        queryParameters: {'phone': phone},
+      );
+      return response.data; // Return the data of the employee
+    } catch (e) {
+      throw Exception('Failed to fetch employee: ${e.toString()}');
     }
   }
 

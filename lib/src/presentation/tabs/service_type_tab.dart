@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:vehicle_service_app/src/constant/themes.dart';
 import 'package:vehicle_service_app/src/data/repositories/primary_key_setting_Repo.dart';
+import 'package:vehicle_service_app/src/logic/bloc/customer/customer_bloc.dart';
 import 'package:vehicle_service_app/src/logic/bloc/jobcard/job_card_event.dart';
 import 'package:vehicle_service_app/src/logic/bloc/primary_key_setting/primary_key_setting_bloc.dart';
 import 'package:vehicle_service_app/src/logic/bloc/primary_key_setting/primary_key_setting_event.dart';
@@ -76,6 +77,9 @@ class _ServiceTypeState extends State<ServiceType> {
               PrimaryKeySettingBloc(PrimaryKeySettingRepo(ApiProvider()))
                 ..add(fetchPrimaryKeySetting()),
         ),
+        BlocProvider(
+          create: (context) => CustomerBloc(ApiProvider()),
+        ),
       ],
       child: Scaffold(
         body: BlocConsumer<JobCardBloc, JobCardState>(
@@ -110,6 +114,7 @@ class _ServiceTypeState extends State<ServiceType> {
                           const SizedBox(
                             height: 20,
                           ),
+                          // AutoCompleteWidget(),
                           TextFormFieldComponent(
                             controller: CustomerNameController,
                             lableText: "Customer Name",
@@ -119,6 +124,7 @@ class _ServiceTypeState extends State<ServiceType> {
                             obscureText: false,
                             maxLines: 1,
                           ),
+
                           const SizedBox(
                             height: 5,
                           ),
@@ -130,10 +136,7 @@ class _ServiceTypeState extends State<ServiceType> {
                             textCapitalization: TextCapitalization.words,
                             obscureText: false,
                             maxLines: 1,
-                            onChanged: () {
-                              
-                            },
-                            
+                            onChanged: () {},
                           ),
                           const SizedBox(
                             height: 30,

@@ -19,12 +19,17 @@ final class CustomerLoaded extends CustomerState {
   // @override
   // List<Object> get props => [customers];
 
-  final String customerName;
-  CustomerLoaded({required this.customerName});
+  // final List<String> phones;
+  // CustomerLoaded(this.phones);
 
-  @override
-  List<Object> get props => [customerName];
+  final String Cust_ID;
+  final String Cust_Name;
+
+  CustomerLoaded(this.Cust_ID, this.Cust_Name);
+
+
 }
+
 
 final class CustomerAdded extends CustomerState {}
 

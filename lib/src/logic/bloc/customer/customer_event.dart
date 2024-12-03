@@ -113,8 +113,13 @@ class AddCustomer extends CustomerEvent {
 }
 
 
-class fetchCustomerByPhone extends CustomerEvent{
-  final String phoneNumber;
+class fetchCustomerPhones extends CustomerEvent{
+  final String query;
 
-  fetchCustomerByPhone({required this.phoneNumber});
+  fetchCustomerPhones(this.query);
+}
+class fetchCustomerDetailsByPhone extends CustomerEvent {
+  final String phone;
+
+  fetchCustomerDetailsByPhone(this.phone);
 }
