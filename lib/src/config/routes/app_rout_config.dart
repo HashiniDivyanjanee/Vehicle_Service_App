@@ -36,10 +36,11 @@ final GoRouter router = GoRouter(
     GoRoute(
       name: MyAppRouteConstants.job_detailsRoute,
       path: '/job_details',
-      pageBuilder: (context, state) {
-        return MaterialPage(child: JobDetails());
-      },
-    ),
+      builder: (context, state) => BlocProvider(
+              create: (context) => CustomerBloc(ApiProvider()),
+              child: JobDetails(),
+            )),
+    
     GoRoute(
         name: MyAppRouteConstants.customer,
         path: '/customer',

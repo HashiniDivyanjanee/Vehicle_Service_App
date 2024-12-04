@@ -217,17 +217,23 @@ class ApiProvider {
     }
   }
 
-  Future<Map<String, dynamic>> fetchCustomerByPhone(String phone) async {
-    try {
-      final response = await dio.get(
-        '/employee', // This assumes the backend route is '/employee'
-        queryParameters: {'phone': phone},
-      );
-      return response.data; // Return the data of the employee
-    } catch (e) {
-      throw Exception('Failed to fetch employee: ${e.toString()}');
+Future<Map<String, dynamic>> fetchCustomerByPhone(String phone) async {
+  try {
+    final response = await dio.get('/customer', queryParameters: {'phone': phone});
+    if (response.statusCode == 404) {
+      throw Exception('Customer not found');
     }
+    return response.data as Map<String, dynamic>;
+  } on DioError catch (e) {
+    if (e.response != null && e.response!.statusCode == 404) {
+      throw Exception('Customer not found');
+    } else {
+      throw Exception('Network error: ${e.message}');
+    }
+  } catch (e) {
+    throw Exception('Failed to fetch customer: ${e.toString()}');
   }
+}
 
 
 // -- PUT API --

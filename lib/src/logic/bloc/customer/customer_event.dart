@@ -114,12 +114,17 @@ class AddCustomer extends CustomerEvent {
 
 
 class fetchCustomerPhones extends CustomerEvent{
-  final String query;
+  // final String query;
 
-  fetchCustomerPhones(this.query);
+  // fetchCustomerPhones(this.query);
+
+
 }
 class fetchCustomerDetailsByPhone extends CustomerEvent {
-  final String phone;
+ final String phone;
 
-  fetchCustomerDetailsByPhone(this.phone);
+   fetchCustomerDetailsByPhone(this.phone);
+
+  @override
+  List<Object> get props => [phone];
 }

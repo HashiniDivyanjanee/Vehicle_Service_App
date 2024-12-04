@@ -21,11 +21,13 @@ final class CustomerLoaded extends CustomerState {
 
   // final List<String> phones;
   // CustomerLoaded(this.phones);
+ final int customerId;
+  final String customerName;
 
-  final String Cust_ID;
-  final String Cust_Name;
+  const CustomerLoaded(this.customerId, this.customerName);
 
-  CustomerLoaded(this.Cust_ID, this.Cust_Name);
+  @override
+  List<Object> get props => [customerId, customerName];
 
 
 }

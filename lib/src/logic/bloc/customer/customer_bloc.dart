@@ -54,18 +54,21 @@ class CustomerBloc extends Bloc<CustomerEvent, CustomerState> {
       }
     });
 
-    on<fetchCustomerPhones>(_onFetchPhones);
-    
-  }
-  Future<void> _onFetchPhones(fetchCustomerPhones event, Emitter<CustomerState> emit) async {
-    emit(CusatomerLoading());
-    try {
-      final phones = await apiProvider.fetchCustomerByPhone(event.query);
-      // emit(CustomerLoaded(phone));
-    } catch (e) {
-      emit(CustomerError(e.toString()));
-    }
+      on<fetchCustomerDetailsByPhone>(_onFetchCustomerDetailsByPhone);
   }
 
- 
+ Future<void> _onFetchCustomerDetailsByPhone(
+    fetchCustomerDetailsByPhone event, Emitter<CustomerState> emit) async {
+  emit(CusatomerLoading());
+  try {
+    final data = await apiProvider.fetchCustomerByPhone(event.phone);
+    final customerId = data['Cust_ID'] ?? 0;
+    final customerName = data['Cust_Name'] ?? 'Unknown';
+
+    emit(CustomerLoaded(customerId, customerName));
+  } catch (e) {
+    emit(CustomerError('Failed to fetch customer: ${e.toString()}'));
+  }
+}
+
 }
