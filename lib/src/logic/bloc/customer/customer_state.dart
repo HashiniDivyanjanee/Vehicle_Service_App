@@ -9,7 +9,7 @@ abstract class CustomerState extends Equatable {
 
 final class CustomerInitial extends CustomerState {}
 
-final class CusatomerLoading extends CustomerState {}
+final class CustomerLoading extends CustomerState {}
 
 final class CustomerLoaded extends CustomerState {
   // final List<Map<String, dynamic>> customers;

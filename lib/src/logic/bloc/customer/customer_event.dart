@@ -121,9 +121,9 @@ class fetchCustomerPhones extends CustomerEvent{
 
 }
 class fetchCustomerDetailsByPhone extends CustomerEvent {
- final String phone;
+final String phone;
 
-   fetchCustomerDetailsByPhone(this.phone);
+  fetchCustomerDetailsByPhone(this.phone);
 
   @override
   List<Object> get props => [phone];

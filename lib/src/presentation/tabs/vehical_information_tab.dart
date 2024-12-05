@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vehicle_service_app/src/logic/bloc/customer/customer_bloc.dart';
 
+
 class VehicalInformation extends StatefulWidget {
   const VehicalInformation({Key? key}) : super(key: key);
 
   @override
   State<VehicalInformation> createState() => _VehicalInformationState();
 }
+
 class _VehicalInformationState extends State<VehicalInformation> {
   @override
   Widget build(BuildContext context) {
@@ -16,7 +18,7 @@ class _VehicalInformationState extends State<VehicalInformation> {
     final customerIdController = TextEditingController();
 
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(title: const Text("Job Card Details")),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -24,19 +26,19 @@ class _VehicalInformationState extends State<VehicalInformation> {
           children: [
             TextField(
               controller: customerPhoneController,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 labelText: 'Phone Number',
                 border: OutlineInputBorder(),
               ),
               keyboardType: TextInputType.phone,
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             ElevatedButton(
               onPressed: () {
                 final phone = customerPhoneController.text.trim();
                 if (phone.isEmpty) {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('Please enter a phone number')),
+                    const SnackBar(content: Text('Please enter a phone number')),
                   );
                   return;
                 }
@@ -44,9 +46,9 @@ class _VehicalInformationState extends State<VehicalInformation> {
                     .read<CustomerBloc>()
                     .add(fetchCustomerDetailsByPhone(phone));
               },
-              child: Text('Find Customer'),
+              child: const Text('Find Customer'),
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             BlocListener<CustomerBloc, CustomerState>(
               listener: (context, state) {
                 if (state is CustomerLoaded) {
@@ -62,23 +64,23 @@ class _VehicalInformationState extends State<VehicalInformation> {
               },
               child: BlocBuilder<CustomerBloc, CustomerState>(
                 builder: (context, state) {
-                  if (state is CusatomerLoading) {
-                    return Center(child: CircularProgressIndicator());
+                  if (state is CustomerLoading) {
+                    return const Center(child: CircularProgressIndicator());
                   }
                   return Column(
                     children: [
                       TextField(
                         controller: customerIdController,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           labelText: 'Customer ID',
                           border: OutlineInputBorder(),
                         ),
                         readOnly: true,
                       ),
-                      SizedBox(height: 16),
+                      const SizedBox(height: 16),
                       TextField(
                         controller: customerNameController,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           labelText: 'Customer Name',
                           border: OutlineInputBorder(),
                         ),

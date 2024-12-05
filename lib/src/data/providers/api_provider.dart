@@ -217,24 +217,29 @@ class ApiProvider {
     }
   }
 
-Future<Map<String, dynamic>> fetchCustomerByPhone(String phone) async {
-  try {
-    final response = await dio.get('/customer', queryParameters: {'phone': phone});
-    if (response.statusCode == 404) {
-      throw Exception('Customer not found');
+ Future<Map<String, dynamic>> fetchCustomerByPhone(String phone) async {
+    try {
+      final response = await dio.get('/customer', queryParameters: {'phone': phone});
+      if (response.statusCode == 200) {     
+        final List<dynamic> customerData = response.data['data'];
+        if (customerData.isNotEmpty) {
+          return customerData.first as Map<String, dynamic>;
+        } else {
+          throw Exception('Customer not found');
+        }
+      } else {
+        throw Exception('Customer not found');
+      }
+    } on DioError catch (e) {
+      if (e.response != null && e.response!.statusCode == 404) {
+        throw Exception('Customer not found');
+      } else {
+        throw Exception('Network error: ${e.message}');
+      }
+    } catch (e) {
+      throw Exception('Failed to fetch customer: ${e.toString()}');
     }
-    return response.data as Map<String, dynamic>;
-  } on DioError catch (e) {
-    if (e.response != null && e.response!.statusCode == 404) {
-      throw Exception('Customer not found');
-    } else {
-      throw Exception('Network error: ${e.message}');
-    }
-  } catch (e) {
-    throw Exception('Failed to fetch customer: ${e.toString()}');
   }
-}
-
 
 // -- PUT API --
   Future<void> updatePrimaryKeySetting(int latestID) async {

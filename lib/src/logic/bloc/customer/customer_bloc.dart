@@ -9,7 +9,7 @@ class CustomerBloc extends Bloc<CustomerEvent, CustomerState> {
 
   CustomerBloc(this.apiProvider) : super(CustomerInitial()) {
     on<AddCustomer>((event, emit) async {
-      emit(CusatomerLoading());
+      emit(CustomerLoading());
       try {
         await apiProvider.saveCustomer(
           event.NIC,
@@ -58,17 +58,14 @@ class CustomerBloc extends Bloc<CustomerEvent, CustomerState> {
   }
 
  Future<void> _onFetchCustomerDetailsByPhone(
-    fetchCustomerDetailsByPhone event, Emitter<CustomerState> emit) async {
-  emit(CusatomerLoading());
-  try {
-    final data = await apiProvider.fetchCustomerByPhone(event.phone);
-    final customerId = data['Cust_ID'] ?? 0;
-    final customerName = data['Cust_Name'] ?? 'Unknown';
-
-    emit(CustomerLoaded(customerId, customerName));
-  } catch (e) {
-    emit(CustomerError('Failed to fetch customer: ${e.toString()}'));
-  }
-}
-
-}
+      fetchCustomerDetailsByPhone event, Emitter<CustomerState> emit) async {
+    emit(CustomerLoading());
+    try {
+      final data = await apiProvider.fetchCustomerByPhone(event.phone);
+      final customerId = data['Cust_ID'] ?? 0;
+      final customerName = data['Cust_Name'] ?? 'Unknown';
+      emit(CustomerLoaded(customerId, customerName));
+    } catch (e) {
+      emit(CustomerError(e.toString()));
+    }
+  }}
