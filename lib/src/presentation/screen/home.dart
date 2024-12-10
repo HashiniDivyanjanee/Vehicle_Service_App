@@ -19,78 +19,94 @@ class Home extends StatelessWidget {
           thumbVisibility: true,
           child: SingleChildScrollView(
             child: Column(children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Card_Widget(
-                      cardname: 'CUSTOMER',
-                      card_icon: Icons.person,
-                      callback: () {
-                        GoRouter.of(context)
-                            .pushNamed(MyAppRouteConstants.customer);
-                      }),
-                  Card_Widget(
-                      cardname: 'JOB CARD',
-                      card_icon: Icons.pest_control,
-                      callback: () {
-                        GoRouter.of(context)
-                            .pushNamed(MyAppRouteConstants.job_detailsRoute);
-                      }),
-                ],
-              ),
+              Card(context),
               const SizedBox(
                 height: 20,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Card_Widget(
-                    cardname: 'TEST 1',
-                    card_icon: Icons.text_snippet,
-                    callback: () {},
-                  ),
-                  Card_Widget(
-                      cardname: 'TEST 2',
-                      card_icon: Icons.safety_check,
-                      callback: () {}),
-                ],
-              ),
+              Card2(context),
               const SizedBox(
                 height: 20,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Card_Widget(
-                      cardname: 'TEST 3',
-                      card_icon: Icons.dangerous,
-                      callback: () {}),
-                  Card_Widget(
-                      cardname: 'TEST 4',
-                      card_icon: Icons.kayaking,
-                      callback: () {}),
-                ],
-              ),
+              Card3(context),
               const SizedBox(
                 height: 20,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Card_Widget(
-                      cardname: 'TEST 5',
-                      card_icon: Icons.wallet,
-                      callback: () {}),
-                  Card_Widget(
-                      cardname: 'TEST 6',
-                      card_icon: Icons.face,
-                      callback: () {}),
-                ],
-              ),
+              Card4(context),
             ]),
           ),
         ),
       ),
     );
   }
+}
+
+
+  Widget Card4(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Card_Widget(
+            cardname: 'TEST 5',
+            card_icon: Icons.wallet,
+            callback: () {}),
+        Card_Widget(
+            cardname: 'TEST 6',
+            card_icon: Icons.face,
+            callback: () {}),
+      ],
+    );
+  }
+
+  Widget Card3(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Card_Widget(
+            cardname: 'TEST 3',
+            card_icon: Icons.dangerous,
+            callback: () {}),
+        Card_Widget(
+            cardname: 'TEST 4',
+            card_icon: Icons.kayaking,
+            callback: () {}),
+      ],
+    );
+  }
+
+  Widget Card2(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Card_Widget(
+          cardname: 'TEST 1',
+          card_icon: Icons.text_snippet,
+          callback: () {},
+        ),
+        Card_Widget(
+            cardname: 'TEST 2',
+            card_icon: Icons.safety_check,
+            callback: () {}),
+      ],
+    );
+  }
+
+Widget Card(BuildContext context) {
+  return Row(
+    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    children: [
+      Card_Widget(
+          cardname: 'CUSTOMER',
+          card_icon: Icons.person,
+          callback: () {
+            GoRouter.of(context).pushNamed(MyAppRouteConstants.customer);
+          }),
+      Card_Widget(
+          cardname: 'JOB CARD',
+          card_icon: Icons.pest_control,
+          callback: () {
+            GoRouter.of(context)
+                .pushNamed(MyAppRouteConstants.job_detailsRoute);
+          }),
+    ],
+  );
 }

@@ -36,8 +36,6 @@ class _ServiceTypeState extends State<ServiceType> {
       TextEditingController();
   final TextEditingController Customer_NoteController = TextEditingController();
   final TextEditingController Office_NoteController = TextEditingController();
-  // final TextEditingController CustomerNameController = TextEditingController();
-  // final TextEditingController PhoneController = TextEditingController();
   final customerIdController = TextEditingController();
   final customerPhoneController = TextEditingController();
   final customerNameController = TextEditingController();
