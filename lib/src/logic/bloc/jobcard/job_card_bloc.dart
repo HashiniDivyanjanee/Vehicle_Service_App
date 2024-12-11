@@ -71,5 +71,15 @@ class JobCardBloc extends Bloc<JobCardEvent, JobCardState> {
         emit(JobCardError(e.toString()));
       }
     });
+
+    on<FetchJobCard>((event, emit)async{
+      emit(JobCardLoading());
+      try {
+        final data = await apiProvider.fetchJobCardDetails();
+        emit(JobCardLoaded(data));
+      } catch (e) {
+        emit(JobCardError(e.toString()));
+      }
+    });
   }
 }
