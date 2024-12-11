@@ -3,5 +3,4 @@ class AssestPath {
   static const  format = '.jpeg';
   static const String logo = '${basePath}images$format';
   static const String background = '${basePath}bg$format';
-
 }
