@@ -1,4 +1,6 @@
 class AssestPath {
-  static const String logo = 'assets/images/images.jpeg';
-  static const String background = 'assets/images/bg.jpeg';
+  static const  basePath='assets/images/';
+  static const  format = '.jpeg';
+  static const String logo = '${basePath}images$format';
+  static const String background = '${basePath}bg$format';
 }

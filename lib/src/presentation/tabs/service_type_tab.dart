@@ -27,27 +27,18 @@ class ServiceType extends StatefulWidget {
 
 class _ServiceTypeState extends State<ServiceType> {
   final TextEditingController License_PlateController = TextEditingController();
-
   final TextEditingController MileageController = TextEditingController();
-
   final TextEditingController BrandController = TextEditingController();
-
   final TextEditingController ModelController = TextEditingController();
-
   final TextEditingController YearController = TextEditingController();
-
   final TextEditingController ColorController = TextEditingController();
-
   final TextEditingController InsuranceClaimController =
       TextEditingController();
-
   final TextEditingController Customer_NoteController = TextEditingController();
-
   final TextEditingController Office_NoteController = TextEditingController();
-
-  final TextEditingController CustomerNameController = TextEditingController();
-
-  final TextEditingController PhoneController = TextEditingController();
+  final customerIdController = TextEditingController();
+  final customerPhoneController = TextEditingController();
+  final customerNameController = TextEditingController();
 
   String combinedValue = '';
   DateTime? ScheduledDate;
@@ -61,6 +52,20 @@ class _ServiceTypeState extends State<ServiceType> {
     'FULL SERVICE'
   ];
 
+  clear() {
+    License_PlateController.clear();
+    MileageController.clear();
+    BrandController.clear();
+    ModelController.clear();
+    YearController.clear();
+    ColorController.clear();
+    InsuranceClaimController.clear();
+    Customer_NoteController.clear();
+    Office_NoteController.clear();
+    customerNameController.clear();
+    customerPhoneController.clear();
+  }
+
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
@@ -72,6 +77,9 @@ class _ServiceTypeState extends State<ServiceType> {
           create: (context) =>
               PrimaryKeySettingBloc(PrimaryKeySettingRepo(ApiProvider()))
                 ..add(fetchPrimaryKeySetting()),
+        ),
+        BlocProvider(
+          create: (context) => CustomerBloc(ApiProvider()),
         ),
       ],
       child: Scaffold(
@@ -108,25 +116,93 @@ class _ServiceTypeState extends State<ServiceType> {
                             height: 20,
                           ),
                           TextFormFieldComponent(
-                            controller: CustomerNameController,
-                            lableText: "Customer Name",
-                            suffixIcon: Icons.person,
-                            inputType: TextInputType.name,
-                            textCapitalization: TextCapitalization.words,
-                            obscureText: false,
-                            maxLines: 1,
-                          ),
-                          const SizedBox(
-                            height: 5,
-                          ),
-                          TextFormFieldComponent(
-                            controller: PhoneController,
+                            controller: customerPhoneController,
                             lableText: "Phone Number",
                             suffixIcon: Icons.phone,
                             inputType: TextInputType.phone,
                             textCapitalization: TextCapitalization.words,
                             obscureText: false,
                             maxLines: 1,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(right: 25),
+                            child: Align(
+                              alignment: Alignment.centerRight,
+                              child: ButtonComponent(
+                                  buttonText: "Find",
+                                  textColor: Colors.white,
+                                  buttonColor:
+                                      Color.fromARGB(255, 116, 141, 150),
+                                  callback: () {
+                                    final phone =
+                                        customerPhoneController.text.trim();
+                                    if (phone.isEmpty) {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        const SnackBar(
+                                            content: Text(
+                                                'Please enter a phone number')),
+                                      );
+                                      return;
+                                    }
+                                    context.read<CustomerBloc>().add(
+                                        fetchCustomerDetailsByPhone(phone));
+                                  }),
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                        
+                         
+                          BlocListener<CustomerBloc, CustomerState>(
+                            listener: (context, state) {
+                              if (state is CustomerLoaded) {
+                                customerIdController.text =
+                                    state.customerId.toString();
+                                customerNameController.text =
+                                    state.customerName;
+                              } else if (state is CustomerError) {
+                                // customerIdController.clear();
+                                // customerNameController.clear();
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(content: Text(state.error)),
+                                );
+                              }
+                            },
+                            child: BlocBuilder<CustomerBloc, CustomerState>(
+                              builder: (context, state) {
+                                if (state is CustomerLoading) {
+                                  return const Center(
+                                      child: CircularProgressIndicator());
+                                }
+                                return Column(
+                                  children: [
+                                    TextFormFieldComponent(
+                                      controller: customerIdController,
+                                      lableText: "Customer ID",
+                                      suffixIcon: Icons.person,
+                                      inputType: TextInputType.name,
+                                      textCapitalization:
+                                          TextCapitalization.words,
+                                      obscureText: false,
+                                      maxLines: 1,
+                                    ),
+                                    const SizedBox(height: 16),
+                                    TextFormFieldComponent(
+                                      controller: customerNameController,
+                                      lableText: "Customer ID",
+                                      suffixIcon: Icons.person,
+                                      inputType: TextInputType.name,
+                                      textCapitalization:
+                                          TextCapitalization.words,
+                                      obscureText: false,
+                                      maxLines: 1,
+                                    ),
+                                  ],
+                                );
+                              },
+                            ),
                           ),
                           const SizedBox(
                             height: 30,
@@ -142,8 +218,8 @@ class _ServiceTypeState extends State<ServiceType> {
                             builder: (context, state) {
                               if (state is PrimaryKeySettingLoading) {
                                 return const Center(
-                                    child: CircularProgressIndicator(),
-                                    );
+                                  child: CircularProgressIndicator(),
+                                );
                               } else if (state is PrimaryKeySettingLoaded) {
                                 return ListView.builder(
                                   shrinkWrap: true,
@@ -316,7 +392,7 @@ class _ServiceTypeState extends State<ServiceType> {
                                           UpdatePrimaryKeySetting(latestID));
 
                                       final Job_Number = combinedValue;
-                                      final Cust_ID = " ";
+                                      final Cust_ID = customerIdController.text;
                                       final Vehicle_Type = BrandController.text;
                                       final Brand = BrandController.text;
                                       final Model = ModelController.text;
@@ -330,7 +406,7 @@ class _ServiceTypeState extends State<ServiceType> {
                                       final Current_Status = "JOB IN";
                                       final Current_Location = " ";
                                       final job_barcode = combinedValue;
-                                      final Job_Name1 = " ";
+                                      final Job_Name1 = License_PlateController.text;
                                       final Job_Name2 = " ";
                                       final CreateDate = Current_Date;
                                       final CreateTime = Current_Time;
@@ -365,9 +441,10 @@ class _ServiceTypeState extends State<ServiceType> {
                                       final Payment_Methods = " ";
                                       final Payment_Status = "Unpaid";
                                       final Cust_Name =
-                                          CustomerNameController.text;
-                                      final Cust_Phone = PhoneController.text;
-                                      final FuelLevel = " ";
+                                          customerNameController.text;
+                                      final Cust_Phone =
+                                          customerPhoneController.text;
+                                      final FuelLevel = "0";
                                       final EstimateAmount = 0.0;
                                       final ShortName = " ";
                                       final Display_Status = " ";
@@ -378,7 +455,7 @@ class _ServiceTypeState extends State<ServiceType> {
                                       BlocProvider.of<JobCardBloc>(context).add(
                                           saveJobCard(
                                               Job_Number,
-                                              Cust_ID,
+                                              Cust_ID.toString(),
                                               Vehicle_Type,
                                               Brand,
                                               Model,
@@ -391,7 +468,7 @@ class _ServiceTypeState extends State<ServiceType> {
                                               Current_Status,
                                               Current_Location,
                                               job_barcode,
-                                              Job_Name1,
+                                              Job_Name1.toString(),
                                               Job_Name2,
                                               CreateDate,
                                               CreateTime,
@@ -432,6 +509,8 @@ class _ServiceTypeState extends State<ServiceType> {
                                               Job_Priority,
                                               Job_Category_Type,
                                               Cust_VehicleNo));
+
+                                      clear();
                                     }),
                           ),
                           const SizedBox(height: 40),

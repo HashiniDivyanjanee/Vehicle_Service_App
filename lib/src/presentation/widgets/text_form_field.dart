@@ -11,6 +11,8 @@ class TextFormFieldComponent extends StatelessWidget {
   final TextCapitalization textCapitalization;
   final String lableText;
   final int maxLines;
+  final VoidCallback? onChanged;
+
   TextFormFieldComponent({
     super.key,
     required this.lableText,
@@ -20,6 +22,7 @@ class TextFormFieldComponent extends StatelessWidget {
     required this.suffixIcon,
     this.textCapitalization = TextCapitalization.none,
     required this.inputType,
+    this.onChanged,
   });
 
   @override
@@ -34,7 +37,7 @@ class TextFormFieldComponent extends StatelessWidget {
         maxLines: maxLines,
         obscureText: obscureText,
         keyboardType: inputType,
-      
+        onTap: onChanged,
         textAlign: TextAlign.start,
         style: const TextStyle(color: Colors.black, fontSize: 12),
         decoration: InputDecoration(

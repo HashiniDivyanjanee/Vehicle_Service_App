@@ -9,16 +9,29 @@ abstract class CustomerState extends Equatable {
 
 final class CustomerInitial extends CustomerState {}
 
-final class CusatomerLoading extends CustomerState {}
+final class CustomerLoading extends CustomerState {}
 
 final class CustomerLoaded extends CustomerState {
-  final List<Map<String, dynamic>> customers;
+  // final List<Map<String, dynamic>> customers;
 
-  CustomerLoaded(this.customers);
+  // CustomerLoaded(this.customers);
+
+  // @override
+  // List<Object> get props => [customers];
+
+  // final List<String> phones;
+  // CustomerLoaded(this.phones);
+ final int customerId;
+  final String customerName;
+
+  const CustomerLoaded(this.customerId, this.customerName);
 
   @override
-  List<Object> get props => [customers];
+  List<Object> get props => [customerId, customerName];
+
+
 }
+
 
 final class CustomerAdded extends CustomerState {}
 

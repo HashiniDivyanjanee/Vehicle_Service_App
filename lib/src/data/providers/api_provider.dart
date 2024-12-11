@@ -3,9 +3,7 @@ import 'package:dio/dio.dart';
 class ApiProvider {
   final Dio dio = Dio(BaseOptions(baseUrl: 'http://192.168.1.13:5000/api'));
 
-
-// POST API
-
+// -- POST API --
   Future<void> saveJobCard(
       String Job_Number,
       String Cust_ID,
@@ -126,15 +124,78 @@ class ApiProvider {
     }
   }
 
-  Future<void> saveCustomer(String NIC, String Cust_Name, String Phone,
-      String Phone_Land, String Address1) async {
+  Future<void> saveCustomer(
+    String NIC,
+    String Cust_Name,
+    String Phone,
+    String Phone_Land,
+    String Email,
+    String Address1,
+    String Address2,
+    String Address3,
+    String Date_Of_Birth,
+    String Gender,
+    String Cus_Group_Name,
+    String Remark,
+    String Credit_Card_Type,
+    String Card_Number,
+    String Expiration_date,
+    String Credit_Card_Bank,
+    String Internal_Notes,
+    int Auto_Email_Invoice,
+    int Premium_Membership,
+    int Loyalty_Enabled,
+    double Loyalty_Point,
+    double Available_Loyalty_Credit,
+    double Earned_Loyalty,
+    double Redeemed_Loyalty,
+    int Store_Credit_Enabled,
+    double Store_Credit_Amount,
+    double Account_Balance,
+    String Last_Visit,
+    int Total_Orders,
+    double Total_Spent,
+    double Account_Limit,
+    String Ref_Emp_ID,
+    String Ref_Emp_Name,
+    String Cust_VehicleNo,
+  ) async {
     try {
       final response = await dio.post('/customer', data: {
         'NIC': NIC,
         'Cust_Name': Cust_Name,
         'Phone': Phone,
         'Phone_Land': Phone_Land,
+        'Email': Email,
         'Address1': Address1,
+        'Address2': Address2,
+        'Address3': Address3,
+        'Date_Of_Birth': Date_Of_Birth,
+        'Gender': Gender,
+        'Cus_Group_Name': Cus_Group_Name,
+        'Remark': Remark,
+        'Credit_Card_Type': Credit_Card_Type,
+        'Card_Number': Card_Number,
+        'Expiration_date': Expiration_date,
+        'Credit_Card_Bank': Credit_Card_Bank,
+        'Internal_Notes': Internal_Notes,
+        'Auto_Email_Invoice': Auto_Email_Invoice,
+        'Premium_Membership': Premium_Membership,
+        'Loyalty_Enabled': Loyalty_Enabled,
+        'Loyalty_Point': Loyalty_Point,
+        'Available_Loyalty_Credit': Available_Loyalty_Credit,
+        'Earned_Loyalty': Earned_Loyalty,
+        'Redeemed_Loyalty': Redeemed_Loyalty,
+        'Store_Credit_Enabled': Store_Credit_Enabled,
+        'Store_Credit_Amount': Store_Credit_Amount,
+        'Account_Balance': Account_Balance,
+        'Last_Visit': Last_Visit,
+        'Total_Orders': Total_Orders,
+        'Total_Spent': Total_Spent,
+        'Account_Limit': Account_Limit,
+        'Ref_Emp_ID': Ref_Emp_ID,
+        'Ref_Emp_Name': Ref_Emp_Name,
+        'Cust_VehicleNo': Cust_VehicleNo
       });
       print('Response from Server:${response.data}');
     } catch (e, stackTrace) {
@@ -144,8 +205,7 @@ class ApiProvider {
     }
   }
 
-
-// GET API
+// -- GET API --
   Future<List<dynamic>> fetchPrimaryKeySetting() async {
     try {
       final response = await dio.get('/primarykeysetting');
@@ -157,8 +217,31 @@ class ApiProvider {
     }
   }
 
+ Future<Map<String, dynamic>> fetchCustomerByPhone(String phone) async {
+    try {
+      final response = await dio.get('/customer', queryParameters: {'phone': phone});
+      if (response.statusCode == 200) {     
+        final List<dynamic> customerData = response.data['data'];
+        if (customerData.isNotEmpty) {
+          return customerData.first as Map<String, dynamic>;
+        } else {
+          throw Exception('Customer not found');
+        }
+      } else {
+        throw Exception('Customer not found');
+      }
+    } on DioError catch (e) {
+      if (e.response != null && e.response!.statusCode == 404) {
+        throw Exception('Customer not found');
+      } else {
+        throw Exception('Network error: ${e.message}');
+      }
+    } catch (e) {
+      throw Exception('Failed to fetch customer: ${e.toString()}');
+    }
+  }
 
-// PUT API
+// -- PUT API --
   Future<void> updatePrimaryKeySetting(int latestID) async {
     try {
       await dio.put(
