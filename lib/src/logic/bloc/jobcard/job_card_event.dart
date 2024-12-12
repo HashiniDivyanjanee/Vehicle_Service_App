@@ -112,3 +112,5 @@ class saveJobCard extends JobCardEvent {
       this.Job_Category_Type,
       this.Cust_VehicleNo);
 }
+
+class FetchJobCard extends JobCardEvent{}

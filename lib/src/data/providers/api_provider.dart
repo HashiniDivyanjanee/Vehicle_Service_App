@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
+import 'package:vehicle_service_app/src/data/model/job_card.dart';
 
 class ApiProvider {
   final Dio dio = Dio(BaseOptions(baseUrl: 'http://192.168.1.13:5000/api'));
@@ -240,6 +243,18 @@ class ApiProvider {
       throw Exception('Failed to fetch customer: ${e.toString()}');
     }
   }
+
+  // ** JOB CARD FETCH ** 
+  Future<List<JobCardModel>> fetchJobCardDetails() async{
+    final response = await dio.get('/jobcard');
+    if(response.statusCode == 200){
+      final data = response.data as List;
+      return data.map((json)=> JobCardModel.fromJson(json)).toList();
+    }else{
+      throw Exception('Failed to Fetch data');
+    }
+  }
+
 
 // -- PUT API --
   Future<void> updatePrimaryKeySetting(int latestID) async {
