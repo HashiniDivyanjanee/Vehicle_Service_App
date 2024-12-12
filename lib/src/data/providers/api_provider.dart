@@ -245,15 +245,20 @@ class ApiProvider {
   }
 
   // ** JOB CARD FETCH ** 
-  Future<List<JobCardModel>> fetchJobCardDetails() async{
-    final response = await dio.get('/jobcard');
-    if(response.statusCode == 200){
-      final data = response.data as List;
-      return data.map((json)=> JobCardModel.fromJson(json)).toList();
-    }else{
-      throw Exception('Failed to Fetch data');
+Future<List<JobCardModel>> fetchJobCardDetails() async {
+  final response = await dio.get('/jobcard');
+  if (response.statusCode == 200) {
+    final jsonResponse = response.data;
+    if (jsonResponse is Map && jsonResponse['data'] is List) {
+      final data = jsonResponse['data'] as List;
+      return data.map((json) => JobCardModel.fromJson(json as Map<String, dynamic>)).toList();
+    } else {
+      throw Exception('Unexpected response format');
     }
+  } else {
+    throw Exception('Failed to fetch data: ${response.statusCode}');
   }
+}
 
 
 // -- PUT API --

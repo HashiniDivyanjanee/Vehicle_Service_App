@@ -152,9 +152,7 @@ class _ServiceTypeState extends State<ServiceType> {
                           ),
                           const SizedBox(
                             height: 20,
-                          ),
-                        
-                         
+                          ),                                                 
                           BlocListener<CustomerBloc, CustomerState>(
                             listener: (context, state) {
                               if (state is CustomerLoaded) {

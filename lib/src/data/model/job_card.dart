@@ -14,10 +14,11 @@ class JobCardModel {
 
   factory JobCardModel.fromJson(Map<String, dynamic> json) {
     return JobCardModel(
-        Job_Number: json['Job_Number'],
-        Job_Type: json['Job_Type'],
-        Scheduled_Date: json['Scheduled_Date'],
-        Cust_Name: json['Cust_Name'],
-        Sub_Total: json['Sub_Total']);
+      Job_Number: json['Job_Number'] ?? '',
+      Job_Type: json['Job_Type'] ?? '',
+      Scheduled_Date: json['Scheduled_Date'] ?? '',
+      Cust_Name: json['Cust_Name'] ?? '',
+       Sub_Total: json['Sub_Total']?.toString() ?? '0.00',
+    );
   }
 }

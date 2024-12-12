@@ -36,13 +36,12 @@ final GoRouter router = GoRouter(
       },
     ),
     GoRoute(
-      name: MyAppRouteConstants.job_detailsRoute,
-      path: '/job_details',
-      builder: (context, state) => BlocProvider(
+        name: MyAppRouteConstants.job_detailsRoute,
+        path: '/job_details',
+        builder: (context, state) => BlocProvider(
               create: (context) => CustomerBloc(ApiProvider()),
               child: JobDetails(),
             )),
-    
     GoRoute(
         name: MyAppRouteConstants.customer,
         path: '/customer',
@@ -50,8 +49,7 @@ final GoRouter router = GoRouter(
               create: (context) => CustomerBloc(ApiProvider()),
               child: const Customer(),
             )),
-
-            GoRoute(
+    GoRoute(
         name: MyAppRouteConstants.JobCardList,
         path: '/JobCard',
         builder: (context, state) => BlocProvider(
