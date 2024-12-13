@@ -48,7 +48,7 @@ class TextFormFieldComponent extends StatelessWidget {
             isDense: true,
             labelText: lableText,
             filled: true,
-            fillColor: AppThemes.TextField_Bg_Color,
+            fillColor: AppThemes.cardBackgroundColor,
             counterText: "",
             labelStyle: const TextStyle(
                 color: AppThemes.SecondTextColor,

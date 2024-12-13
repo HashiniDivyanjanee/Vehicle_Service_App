@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:vehicle_service_app/src/logic/bloc/customer/customer_bloc.dart';
-
+import 'package:vehicle_service_app/src/logic/bloc/audio/audio_bloc.dart';
 
 class VehicalInformation extends StatefulWidget {
   const VehicalInformation({Key? key}) : super(key: key);
@@ -13,85 +12,53 @@ class VehicalInformation extends StatefulWidget {
 class _VehicalInformationState extends State<VehicalInformation> {
   @override
   Widget build(BuildContext context) {
-    final customerPhoneController = TextEditingController();
-    final customerNameController = TextEditingController();
-    final customerIdController = TextEditingController();
+    return BlocProvider(
+      create: (context) => AudioBloc(),
+      child: Scaffold(
+        appBar: AppBar(title: Text('Voice Recorder')),
+        body: BlocBuilder<AudioBloc, AudioState>(
+          builder: (context, state) {
+            final bloc = BlocProvider.of<AudioBloc>(context);
 
-    return Scaffold(
-      appBar: AppBar(title: const Text("Job Card Details")),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            TextField(
-              controller: customerPhoneController,
-              decoration: const InputDecoration(
-                labelText: 'Phone Number',
-                border: OutlineInputBorder(),
+            if (state is AudioInitialState) {
+              return Center(
+                child: ElevatedButton(
+                  onPressed: () => bloc.add(CheckPermissionEvent()),
+                  child: Text('Request Permissions'),
+                ),
+              );
+            } else if (state is AudioRecordingState) {
+              return Center(
+                child: ElevatedButton(
+                  onPressed: () => bloc.add(StopRecordingEvent()),
+                  child: Text('Stop Recording'),
+                ),
+              );
+            } else if (state is AudioRecordedState) {
+              return Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text('Recording saved at: ${state.filepath}'),
+                    ElevatedButton(
+                      onPressed: () => bloc.add(StartRecordingEvent()),
+                      child: Text('Record Again'),
+                    ),
+                  ],
+                ),
+              );
+            } else if (state is AudioErrorState) {
+              return Center(child: Text('Error: ${state.message}'));
+            }
+
+            return Center(
+              child: ElevatedButton(
+                onPressed: () => BlocProvider.of<AudioBloc>(context)
+                    .add(StartRecordingEvent()),
+                child: Text('Start Recording'),
               ),
-              keyboardType: TextInputType.phone,
-            ),
-            const SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: () {
-                final phone = customerPhoneController.text.trim();
-                if (phone.isEmpty) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Please enter a phone number')),
-                  );
-                  return;
-                }
-                context
-                    .read<CustomerBloc>()
-                    .add(fetchCustomerDetailsByPhone(phone));
-              },
-              child: const Text('Find Customer'),
-            ),
-            const SizedBox(height: 16),
-            BlocListener<CustomerBloc, CustomerState>(
-              listener: (context, state) {
-                if (state is CustomerLoaded) {
-                  customerIdController.text = state.customerId.toString();
-                  customerNameController.text = state.customerName;
-                } else if (state is CustomerError) {
-                  customerIdController.clear();
-                  customerNameController.clear();
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text(state.error)),
-                  );
-                }
-              },
-              child: BlocBuilder<CustomerBloc, CustomerState>(
-                builder: (context, state) {
-                  if (state is CustomerLoading) {
-                    return const Center(child: CircularProgressIndicator());
-                  }
-                  return Column(
-                    children: [
-                      TextField(
-                        controller: customerIdController,
-                        decoration: const InputDecoration(
-                          labelText: 'Customer ID',
-                          border: OutlineInputBorder(),
-                        ),
-                        readOnly: true,
-                      ),
-                      const SizedBox(height: 16),
-                      TextField(
-                        controller: customerNameController,
-                        decoration: const InputDecoration(
-                          labelText: 'Customer Name',
-                          border: OutlineInputBorder(),
-                        ),
-                        readOnly: true,
-                      ),
-                    ],
-                  );
-                },
-              ),
-            ),
-          ],
+            );
+          },
         ),
       ),
     );
