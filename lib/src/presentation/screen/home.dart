@@ -23,7 +23,7 @@ class Home extends StatelessWidget {
           thumbVisibility: true,
           child: SingleChildScrollView(
             child: Column(children: [
-              Card(context),
+              Card1(context),
               const SizedBox(
                 height: 20,
               ),
@@ -92,12 +92,13 @@ class Home extends StatelessWidget {
         Card_Widget(
             cardname: 'TEST 2',
             card_icon: Icons.safety_check,
-            callback: () {}),
+            callback: () { GoRouter.of(context)
+                      .pushNamed(MyAppRouteConstants.Test);}),
       ],
     );
   }
 
-Widget Card(BuildContext context) {
+Widget Card1(BuildContext context) {
   return Row(
     mainAxisAlignment: MainAxisAlignment.spaceBetween,
     children: [

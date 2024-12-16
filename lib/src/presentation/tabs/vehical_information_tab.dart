@@ -27,6 +27,13 @@ class _VehicalInformationState extends State<VehicalInformation> {
                   child: Text('Request Permissions'),
                 ),
               );
+            } else if (state is AudioPermissionGrantedState) {
+              return Center(
+                child: ElevatedButton(
+                  onPressed: () => bloc.add(StartRecordingEvent()),
+                  child: Text('Start Recording'),
+                ),
+              );
             } else if (state is AudioRecordingState) {
               return Center(
                 child: ElevatedButton(
@@ -51,13 +58,7 @@ class _VehicalInformationState extends State<VehicalInformation> {
               return Center(child: Text('Error: ${state.message}'));
             }
 
-            return Center(
-              child: ElevatedButton(
-                onPressed: () => BlocProvider.of<AudioBloc>(context)
-                    .add(StartRecordingEvent()),
-                child: Text('Start Recording'),
-              ),
-            );
+            return SizedBox.shrink();
           },
         ),
       ),

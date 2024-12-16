@@ -20,7 +20,7 @@ class AudioBloc extends Bloc<AudioEvent, AudioState> {
     on<StopRecordingEvent>(_stopAudio);
   }
 
-  FutureOr<void> _startAudio(
+  Future<void> _startAudio(
       StartRecordingEvent event, Emitter<AudioState> emit) async {
     try {
       final directory = await getApplicationDocumentsDirectory();
@@ -37,18 +37,22 @@ class AudioBloc extends Bloc<AudioEvent, AudioState> {
     }
   }
 
-  FutureOr<void> _checkPermission(
-      CheckPermissionEvent event, Emitter<AudioState> emit) async {
-    if (await Permission.microphone.isGranted) {
-      return;
-    }
-    final states = await Permission.microphone.request();
-    if (!states.isGranted) {
-      emit(AudioErrorState("Microphone permission Denied"));
-    } else {}
+ Future<void> _checkPermission(
+    CheckPermissionEvent event, Emitter<AudioState> emit) async {
+  if (await Permission.microphone.isGranted) {
+    emit(AudioPermissionGrantedState());
+    return;
   }
+  final states = await Permission.microphone.request();
+  if (!states.isGranted) {
+    emit(AudioErrorState("Microphone permission Denied"));
+  } else {
+    emit(AudioPermissionGrantedState());
+  }
+}
 
-  FutureOr<void> _stopAudio(
+
+  Future<void> _stopAudio(
       StopRecordingEvent event, Emitter<AudioState> emit) async {
     try {
       await _recorder.stopRecorder();
