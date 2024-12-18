@@ -25,7 +25,7 @@ class AudioBloc extends Bloc<AudioEvent, AudioState> {
     try {
       final directory = await getApplicationDocumentsDirectory();
       _filePath = '${directory.path}/recorded_voice.aac';
-
+      print("FilePath: $_filePath");
       await _recorder.openRecorder();
       await _recorder.startRecorder(
         toFile: _filePath,

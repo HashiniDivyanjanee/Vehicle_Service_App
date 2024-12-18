@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:vehicle_service_app/src/config/routes/app_rout_cons.dart';
@@ -9,6 +10,7 @@ import 'package:vehicle_service_app/src/presentation/screen/customer.dart';
 import 'package:vehicle_service_app/src/presentation/screen/home.dart';
 import 'package:vehicle_service_app/src/presentation/screen/job_details.dart';
 import 'package:vehicle_service_app/src/presentation/screen/login.dart';
+import 'package:vehicle_service_app/src/presentation/screen/test.dart';
 import 'package:vehicle_service_app/src/presentation/screen/view_job_card.dart';
 
 final GoRouter router = GoRouter(
@@ -55,6 +57,13 @@ final GoRouter router = GoRouter(
         builder: (context, state) => BlocProvider(
               create: (context) => JobCardBloc(ApiProvider()),
               child: const ViewJobCard(),
-            ))
+            )),
+            GoRoute(
+      name: MyAppRouteConstants.Test,
+      path: '/Test',
+      pageBuilder: (context, state) {
+        return  MaterialPage(child: Test());
+      },
+    ),
   ],
 );

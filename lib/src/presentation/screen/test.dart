@@ -1,17 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:form_validator/form_validator.dart';
+import 'package:vehicle_service_app/src/data/providers/api_provider.dart';
+import 'package:vehicle_service_app/src/logic/bloc/image_upload/image_upload_bloc.dart';
 
-
-void main() {
-  runApp(MaterialApp(
-    title: 'Flutter Demo',
-    theme: ThemeData(
-      primarySwatch: Colors.blue,
-      visualDensity: VisualDensity.adaptivePlatformDensity,
-    ),
-    home: Test(),
-  ));
-}
 
 class Test extends StatefulWidget {
   @override
@@ -26,39 +18,56 @@ class _TestState extends State<Test> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Example'),
-      ),
-      body: Form(
-        key: _form,
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(15),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              TextFormField(
-                validator: ValidationBuilder().email().maxLength(50).build(),
-                decoration: InputDecoration(labelText: 'Email'),
-              ),
-              SizedBox(height: 30),
-              TextFormField(
-                validator:
-                    ValidationBuilder().minLength(5).maxLength(50).build(),
-                decoration: InputDecoration(
-                  labelText: 'Name',
-                  helperText: 'Min length: 5, max length: 50',
-                ),
-              ),
-            ],
-          ),
+   Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) => ImageUploadBloc(ApiProvider()),
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('Upload Multiple Images'),
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _validate,
-        tooltip: 'Next',
-        child: Icon(Icons.arrow_forward),
+        body: BlocBuilder<ImageUploadBloc, ImageUploadState>(
+          builder: (context, state) {
+            final bloc = context.read<ImageUploadBloc>();
+
+            if (state is ImageUploadInProgress) {
+              return const Center(child: CircularProgressIndicator());
+            }
+
+            if (state is ImageSelectionSuccess) {
+              return Column(
+                children: [
+                  Expanded(
+                    child: ListView.builder(
+                      itemCount: state.selectedImages.length,
+                      itemBuilder: (context, index) {
+                        return Image.file(state.selectedImages[index]);
+                      },
+                    ),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      bloc.add(UploadImages(state.selectedImages));
+                    },
+                    child: const Text('Upload Images'),
+                  ),
+                ],
+              );
+            }
+
+            if (state is ImageUploadFailure) {
+              return Center(child: Text('Error: ${state.error}'));
+            }
+
+            return Center(
+              child: ElevatedButton(
+                onPressed: () {
+                  bloc.add(SelectImages());
+                },
+                child: const Text('Select Images'),
+              ),
+            );
+          },
+        ),
       ),
     );
   }

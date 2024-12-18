@@ -12,6 +12,7 @@ class VehicalInformation extends StatefulWidget {
 class _VehicalInformationState extends State<VehicalInformation> {
   @override
   Widget build(BuildContext context) {
+    //return Container();
     return BlocProvider(
       create: (context) => AudioBloc(),
       child: Scaffold(
@@ -39,6 +40,7 @@ class _VehicalInformationState extends State<VehicalInformation> {
                 child: ElevatedButton(
                   onPressed: () => bloc.add(StopRecordingEvent()),
                   child: Text('Stop Recording'),
+                   
                 ),
               );
             } else if (state is AudioRecordedState) {

@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:vehicle_service_app/src/data/model/job_card.dart';
 
 class ApiProvider {
-  final Dio dio = Dio(BaseOptions(baseUrl: 'http://192.168.1.13:5000/api'));
+  final Dio dio = Dio(BaseOptions(baseUrl: 'http://192.168.1.13:5001/api'));
 
 // -- POST API --
   Future<void> saveJobCard(
@@ -272,4 +275,42 @@ Future<List<JobCardModel>> fetchJobCardDetails() async {
       rethrow;
     }
   }
+
+
+ Future<List<File>> pickImages() async {
+    final ImagePicker picker = ImagePicker();
+    final List<XFile>? pickedFiles = await picker.pickMultiImage();
+
+    if (pickedFiles == null || pickedFiles.isEmpty) {
+      throw Exception('No images selected');
+    }
+
+    return pickedFiles.map((file) => File(file.path)).toList();
+  }
+
+ Future<List<String>> uploadImages(List<File> images) async {
+  try {
+    final List<MultipartFile> files = images.map((file) {
+      return MultipartFile.fromFileSync(file.path, filename: file.path.split('/').last);
+    }).toList();
+
+    final FormData formData = FormData.fromMap({'files': files});
+
+    final response = await dio.post(
+      '/upload', 
+      data: formData,
+    );
+
+    if (response.statusCode == 200) {
+      final List<String> filePaths = List<String>.from(response.data['filePaths']);
+      return filePaths;
+    } else {
+      throw Exception('Failed to upload images');
+    }
+  } catch (e) {
+    throw Exception('Error during image upload: $e');
+  }
+}
+
+
 }
