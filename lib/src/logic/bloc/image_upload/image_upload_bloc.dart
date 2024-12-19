@@ -16,7 +16,7 @@ class ImageUploadBloc extends Bloc<ImageUploadEvent, ImageUploadState> {
         final selectedImages = await apiProvider.pickImages();
         emit(ImageSelectionSuccess(selectedImages));
       } catch (e) {
-        emit(ImageUploadFailure('Error Selecting Images: $e'));
+        emit(ImageSelectionFailure('Error Selecting Images: $e'));
       }
     });
 

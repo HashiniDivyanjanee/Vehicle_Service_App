@@ -6,6 +6,7 @@ import 'package:vehicle_service_app/src/config/routes/app_rout_cons.dart';
 import 'package:vehicle_service_app/src/data/providers/api_provider.dart';
 import 'package:vehicle_service_app/src/logic/bloc/customer/customer_bloc.dart';
 import 'package:vehicle_service_app/src/logic/bloc/jobcard/job_card_bloc.dart';
+import 'package:vehicle_service_app/src/logic/bloc/take_image/image_bloc.dart';
 import 'package:vehicle_service_app/src/presentation/screen/customer.dart';
 import 'package:vehicle_service_app/src/presentation/screen/home.dart';
 import 'package:vehicle_service_app/src/presentation/screen/job_details.dart';
@@ -58,12 +59,12 @@ final GoRouter router = GoRouter(
               create: (context) => JobCardBloc(ApiProvider()),
               child: const ViewJobCard(),
             )),
-            GoRoute(
-      name: MyAppRouteConstants.Test,
-      path: '/Test',
-      pageBuilder: (context, state) {
-        return  MaterialPage(child: Test());
-      },
-    ),
+    GoRoute(
+        name: MyAppRouteConstants.Test,
+        path: '/Test',
+        builder: (context, state) => BlocProvider(
+              create: (context) => ImageBloc(),
+              child: Test(),
+            )),
   ],
 );

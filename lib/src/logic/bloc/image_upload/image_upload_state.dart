@@ -30,9 +30,18 @@ class ImageUploadSuccess extends ImageUploadState {
 }
 
 class ImageUploadFailure extends ImageUploadState {
-  String error;
+  final String error;
 
   ImageUploadFailure(this.error);
+
+  @override
+  List<Object?> get props => [error];
+}
+
+class ImageSelectionFailure extends ImageUploadState {
+  final String error;
+
+  ImageSelectionFailure(this.error);
 
   @override
   List<Object?> get props => [error];
