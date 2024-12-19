@@ -2,10 +2,11 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:image_picker/image_picker.dart';
+// import 'package:image_picker/image_picker.dart';
 import 'package:vehicle_service_app/src/data/model/job_card.dart';
 
 class ApiProvider {
-  final Dio dio = Dio(BaseOptions(baseUrl: 'http://192.168.1.13:5001/api'));
+  final Dio dio = Dio(BaseOptions(baseUrl: 'http://192.168.1.13:5000/api'));
 
 // -- POST API --
   Future<void> saveJobCard(

@@ -12,58 +12,58 @@ class VehicalInformation extends StatefulWidget {
 class _VehicalInformationState extends State<VehicalInformation> {
   @override
   Widget build(BuildContext context) {
-    //return Container();
-    return BlocProvider(
-      create: (context) => AudioBloc(),
-      child: Scaffold(
-        appBar: AppBar(title: Text('Voice Recorder')),
-        body: BlocBuilder<AudioBloc, AudioState>(
-          builder: (context, state) {
-            final bloc = BlocProvider.of<AudioBloc>(context);
+    return Container();
+    // return BlocProvider(
+    //   create: (context) => AudioBloc(),
+    //   child: Scaffold(
+    //     appBar: AppBar(title: Text('Voice Recorder')),
+    //     body: BlocBuilder<AudioBloc, AudioState>(
+    //       builder: (context, state) {
+    //         final bloc = BlocProvider.of<AudioBloc>(context);
 
-            if (state is AudioInitialState) {
-              return Center(
-                child: ElevatedButton(
-                  onPressed: () => bloc.add(CheckPermissionEvent()),
-                  child: Text('Request Permissions'),
-                ),
-              );
-            } else if (state is AudioPermissionGrantedState) {
-              return Center(
-                child: ElevatedButton(
-                  onPressed: () => bloc.add(StartRecordingEvent()),
-                  child: Text('Start Recording'),
-                ),
-              );
-            } else if (state is AudioRecordingState) {
-              return Center(
-                child: ElevatedButton(
-                  onPressed: () => bloc.add(StopRecordingEvent()),
-                  child: Text('Stop Recording'),
+    //         if (state is AudioInitialState) {
+    //           return Center(
+    //             child: ElevatedButton(
+    //               onPressed: () => bloc.add(CheckPermissionEvent()),
+    //               child: Text('Request Permissions'),
+    //             ),
+    //           );
+    //         } else if (state is AudioPermissionGrantedState) {
+    //           return Center(
+    //             child: ElevatedButton(
+    //               onPressed: () => bloc.add(StartRecordingEvent()),
+    //               child: Text('Start Recording'),
+    //             ),
+    //           );
+    //         } else if (state is AudioRecordingState) {
+    //           return Center(
+    //             child: ElevatedButton(
+    //               onPressed: () => bloc.add(StopRecordingEvent()),
+    //               child: Text('Stop Recording'),
                    
-                ),
-              );
-            } else if (state is AudioRecordedState) {
-              return Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text('Recording saved at: ${state.filepath}'),
-                    ElevatedButton(
-                      onPressed: () => bloc.add(StartRecordingEvent()),
-                      child: Text('Record Again'),
-                    ),
-                  ],
-                ),
-              );
-            } else if (state is AudioErrorState) {
-              return Center(child: Text('Error: ${state.message}'));
-            }
+    //             ),
+    //           );
+    //         } else if (state is AudioRecordedState) {
+    //           return Center(
+    //             child: Column(
+    //               mainAxisAlignment: MainAxisAlignment.center,
+    //               children: [
+    //                 Text('Recording saved at: ${state.filepath}'),
+    //                 ElevatedButton(
+    //                   onPressed: () => bloc.add(StartRecordingEvent()),
+    //                   child: Text('Record Again'),
+    //                 ),
+    //               ],
+    //             ),
+    //           );
+    //         } else if (state is AudioErrorState) {
+    //           return Center(child: Text('Error: ${state.message}'));
+    //         }
 
-            return SizedBox.shrink();
-          },
-        ),
-      ),
-    );
+    //         return SizedBox.shrink();
+    //       },
+    //     ),
+    //   ),
+    // );
   }
 }
