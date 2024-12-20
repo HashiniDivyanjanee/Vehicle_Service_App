@@ -90,8 +90,8 @@ class Home extends StatelessWidget {
                       .pushNamed(MyAppRouteConstants.JobCardList);},
         ),
         Card_Widget(
-            cardname: 'TEST 2',
-            card_icon: Icons.safety_check,
+            cardname: 'IMAGES',
+            card_icon: Icons.image,
             callback: () { GoRouter.of(context)
                       .pushNamed(MyAppRouteConstants.Test);}),
       ],

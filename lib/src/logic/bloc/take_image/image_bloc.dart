@@ -36,7 +36,7 @@ class ImageBloc extends Bloc<ImageEvent, ImageState> {
           'file': await MultipartFile.fromFile(file.path, filename: file.path.split('/').last),
         });
         final response = await _dio.post(
-          'http://your-server-machine-name:5000/api/upload',
+          'http://192.168.1.13:5000/api/upload',
           data: formData,
         );
 

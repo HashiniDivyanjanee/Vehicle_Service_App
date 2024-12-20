@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vehicle_service_app/src/constant/themes.dart';
+import 'package:vehicle_service_app/src/presentation/screen/test.dart';
 import 'package:vehicle_service_app/src/presentation/tabs/service_type_tab.dart';
 import 'package:vehicle_service_app/src/presentation/tabs/vehical_information_tab.dart';
 
@@ -25,12 +26,16 @@ class JobDetails extends StatelessWidget {
             Tab(
               text: "Business Details",
             ),
+            //  Tab(
+            //   text: "Images",
+            // ),
           ]),
         ),
         body: TabBarView(
           children: [
             ServiceType(),
             VehicalInformation(),
+            // Test()
           ],
         ),
       ),
