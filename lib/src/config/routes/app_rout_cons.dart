@@ -4,5 +4,5 @@ class MyAppRouteConstants {
   static const String job_detailsRoute = 'job_details';
   static const String customer = 'customer';
   static const String JobCardList = 'JobCard';
-  static const String Test = 'Test';
+  static const String ImageUpload = 'ImageUpload';
 }

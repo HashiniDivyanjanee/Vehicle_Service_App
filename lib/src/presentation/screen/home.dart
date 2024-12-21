@@ -45,8 +45,6 @@ class Home extends StatelessWidget {
   }
 }
 
-
-
   Widget Card4(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -84,7 +82,7 @@ class Home extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Card_Widget(
-          cardname: 'TEST 1',
+          cardname: 'JOB LIST',
           card_icon: Icons.text_snippet,
           callback: () {  GoRouter.of(context)
                       .pushNamed(MyAppRouteConstants.JobCardList);},
@@ -93,7 +91,7 @@ class Home extends StatelessWidget {
             cardname: 'IMAGES',
             card_icon: Icons.image,
             callback: () { GoRouter.of(context)
-                      .pushNamed(MyAppRouteConstants.Test);}),
+                      .pushNamed(MyAppRouteConstants.ImageUpload);}),
       ],
     );
   }
@@ -109,7 +107,7 @@ Widget Card1(BuildContext context) {
             GoRouter.of(context).pushNamed(MyAppRouteConstants.customer);
           }),
       Card_Widget(
-          cardname: 'JOB CARD',
+          cardname: 'NEW JOB',
           card_icon: Icons.pest_control,
           callback: () {
             GoRouter.of(context)

@@ -45,7 +45,7 @@ clear(){
             const Title_Widget(
               title: 'CUSTOMER DETAILS',
             ),
-            const Secont_Title(
+            const Second_Title(
               second_title: 'Enter Customer Details',
             ),
             const SizedBox(
