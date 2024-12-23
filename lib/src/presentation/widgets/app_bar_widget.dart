@@ -17,7 +17,6 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
         style: TextStyle(color: Colors.white),
       ),
       backgroundColor: AppThemes.PrimaryColor,
-      
     );
   }
 

@@ -2,12 +2,16 @@ import 'package:flutter/material.dart';
 
 class AppThemes {
   //Colors
-  static const cardBackgroundColor = Color.fromRGBO(230, 244, 252, 1);
+  static const cardBackgroundColor = Color.fromRGBO(233, 242, 248, 1);
+  // static const cardBackgroundColor = Color.fromRGBO(230, 244, 252, 1);
   static const PrimaryColor = Color.fromRGBO(8, 74, 112, 1.0);
+    // static const PrimaryColor =Color.fromARGB(255, 192, 95, 5);
+      //  static const PrimaryColor =Color.fromARGB(255, 5, 100, 42);
+  // static const PrimaryColor =Color.fromARGB(255, 233, 164, 17);
   static const SecondTextColor = Color.fromRGBO(121, 114, 114, 1.0);
   static const TextField_Bg_Color = Color.fromRGBO(142, 142, 142, 0.1);
 
-  //font Size
+  // font Size
   static const PrimaryFontSize = 25.0;
   static const SecondaryFontSize = 12.0;
 }

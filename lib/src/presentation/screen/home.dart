@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:vehicle_service_app/src/config/routes/app_rout_cons.dart';
 import 'package:vehicle_service_app/src/presentation/widgets/app_bar_widget.dart';
+import 'package:vehicle_service_app/src/presentation/widgets/bottom_navigation_bar.dart';
 import 'package:vehicle_service_app/src/presentation/widgets/card_widget.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key});
+  
+ 
 
   @override
   Widget build(BuildContext context) {
@@ -13,13 +16,14 @@ class Home extends StatelessWidget {
       appBar: const AppBarWidget(
         appBarName: 'Dashboard',
       ),
+      bottomNavigationBar:bottomNavigationBar(),
       body: Padding(
         padding: EdgeInsets.all(30.0),
         child: Scrollbar(
           thumbVisibility: true,
           child: SingleChildScrollView(
             child: Column(children: [
-              Card(context),
+              Card1(context),
               const SizedBox(
                 height: 20,
               ),
@@ -32,6 +36,7 @@ class Home extends StatelessWidget {
                 height: 20,
               ),
               Card4(context),
+              
             ]),
           ),
         ),
@@ -39,7 +44,6 @@ class Home extends StatelessWidget {
     );
   }
 }
-
 
   Widget Card4(BuildContext context) {
     return Row(
@@ -78,20 +82,21 @@ class Home extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Card_Widget(
-          cardname: 'TEST 1',
+          cardname: 'JOB LIST',
           card_icon: Icons.text_snippet,
           callback: () {  GoRouter.of(context)
                       .pushNamed(MyAppRouteConstants.JobCardList);},
         ),
         Card_Widget(
-            cardname: 'TEST 2',
-            card_icon: Icons.safety_check,
-            callback: () {}),
+            cardname: 'IMAGES',
+            card_icon: Icons.image,
+            callback: () { GoRouter.of(context)
+                      .pushNamed(MyAppRouteConstants.ImageUpload);}),
       ],
     );
   }
 
-Widget Card(BuildContext context) {
+Widget Card1(BuildContext context) {
   return Row(
     mainAxisAlignment: MainAxisAlignment.spaceBetween,
     children: [
@@ -102,7 +107,7 @@ Widget Card(BuildContext context) {
             GoRouter.of(context).pushNamed(MyAppRouteConstants.customer);
           }),
       Card_Widget(
-          cardname: 'JOB CARD',
+          cardname: 'NEW JOB',
           card_icon: Icons.pest_control,
           callback: () {
             GoRouter.of(context)

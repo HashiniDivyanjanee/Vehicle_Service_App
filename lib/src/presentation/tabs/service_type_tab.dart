@@ -109,7 +109,7 @@ class _ServiceTypeState extends State<ServiceType> {
                           const Title_Widget(
                             title: 'CUSTOMER DETAILS',
                           ),
-                          const Secont_Title(
+                          const Second_Title(
                             second_title: 'Enter Customer Details',
                           ),
                           const SizedBox(
@@ -131,8 +131,7 @@ class _ServiceTypeState extends State<ServiceType> {
                               child: ButtonComponent(
                                   buttonText: "Find",
                                   textColor: Colors.white,
-                                  buttonColor:
-                                      Color.fromARGB(255, 116, 141, 150),
+                                  buttonColor: AppThemes.PrimaryColor,
                                   callback: () {
                                     final phone =
                                         customerPhoneController.text.trim();
@@ -153,8 +152,6 @@ class _ServiceTypeState extends State<ServiceType> {
                           const SizedBox(
                             height: 20,
                           ),
-                        
-                         
                           BlocListener<CustomerBloc, CustomerState>(
                             listener: (context, state) {
                               if (state is CustomerLoaded) {
@@ -191,7 +188,7 @@ class _ServiceTypeState extends State<ServiceType> {
                                     const SizedBox(height: 16),
                                     TextFormFieldComponent(
                                       controller: customerNameController,
-                                      lableText: "Customer ID",
+                                      lableText: "Customer Name",
                                       suffixIcon: Icons.person,
                                       inputType: TextInputType.name,
                                       textCapitalization:
@@ -210,7 +207,7 @@ class _ServiceTypeState extends State<ServiceType> {
                           const Title_Widget(
                             title: 'VEHICLE INFORMATION',
                           ),
-                          const Secont_Title(
+                          const Second_Title(
                             second_title: 'Enter Vehicle Details',
                           ),
                           BlocBuilder<PrimaryKeySettingBloc,
@@ -330,7 +327,7 @@ class _ServiceTypeState extends State<ServiceType> {
                           const Title_Widget(
                             title: 'BUSINESS DETAILS',
                           ),
-                          const Secont_Title(
+                          const Second_Title(
                             second_title:
                                 'Enter Basic Details for new work order',
                           ),
@@ -406,7 +403,8 @@ class _ServiceTypeState extends State<ServiceType> {
                                       final Current_Status = "JOB IN";
                                       final Current_Location = " ";
                                       final job_barcode = combinedValue;
-                                      final Job_Name1 = License_PlateController.text;
+                                      final Job_Name1 =
+                                          License_PlateController.text;
                                       final Job_Name2 = " ";
                                       final CreateDate = Current_Date;
                                       final CreateTime = Current_Time;

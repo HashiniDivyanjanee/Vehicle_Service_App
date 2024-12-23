@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:vehicle_service_app/src/constant/themes.dart';
 
-class Secont_Title extends StatelessWidget {
+class Second_Title extends StatelessWidget {
   final String second_title;
-  const Secont_Title({
+  const Second_Title({
     super.key,
     required this.second_title,
   });

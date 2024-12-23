@@ -45,7 +45,7 @@ clear(){
             const Title_Widget(
               title: 'CUSTOMER DETAILS',
             ),
-            const Secont_Title(
+            const Second_Title(
               second_title: 'Enter Customer Details',
             ),
             const SizedBox(
@@ -56,7 +56,7 @@ clear(){
               maxLines: 1,
               controller: Customer_NameController,
               obscureText: false,
-              suffixIcon: Icons.abc_outlined,
+              suffixIcon: Icons.person,
               inputType: TextInputType.name,
             ),
             const SizedBox(
@@ -67,7 +67,7 @@ clear(){
               maxLines: 1,
               controller: Customer_NicController,
               obscureText: false,
-              suffixIcon: Icons.abc_outlined,
+              suffixIcon: Icons.indeterminate_check_box_outlined,
               inputType: TextInputType.text,
             ),
             const SizedBox(
@@ -78,7 +78,7 @@ clear(){
               maxLines: 1,
               controller: Customer_PhoneController,
               obscureText: false,
-              suffixIcon: Icons.abc_outlined,
+              suffixIcon: Icons.phone,
               inputType: TextInputType.phone,
           
             ),
@@ -90,7 +90,7 @@ clear(){
               maxLines: 1,
               controller: Customer_LandController,
               obscureText: false,
-              suffixIcon: Icons.call,
+              suffixIcon: Icons.quick_contacts_dialer_outlined,
               inputType: TextInputType.phone,
             ),
             const SizedBox(
@@ -101,7 +101,7 @@ clear(){
               maxLines: 1,
               controller: Customer_AddressController,
               obscureText: false,
-              suffixIcon: Icons.abc_outlined,
+              suffixIcon: Icons.location_on,
               inputType: TextInputType.text,
             ),
             const SizedBox(

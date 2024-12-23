@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:vehicle_service_app/src/logic/bloc/customer/customer_bloc.dart';
-
+import 'package:vehicle_service_app/src/logic/bloc/audio/audio_bloc.dart';
+import 'package:vehicle_service_app/src/logic/bloc/audio_upload/audio_upload_bloc.dart';
 
 class VehicalInformation extends StatefulWidget {
   const VehicalInformation({Key? key}) : super(key: key);
@@ -13,86 +13,54 @@ class VehicalInformation extends StatefulWidget {
 class _VehicalInformationState extends State<VehicalInformation> {
   @override
   Widget build(BuildContext context) {
-    final customerPhoneController = TextEditingController();
-    final customerNameController = TextEditingController();
-    final customerIdController = TextEditingController();
-
-    return Scaffold(
-      appBar: AppBar(title: const Text("Job Card Details")),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            TextField(
-              controller: customerPhoneController,
-              decoration: const InputDecoration(
-                labelText: 'Phone Number',
-                border: OutlineInputBorder(),
-              ),
-              keyboardType: TextInputType.phone,
-            ),
-            const SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: () {
-                final phone = customerPhoneController.text.trim();
-                if (phone.isEmpty) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Please enter a phone number')),
-                  );
-                  return;
-                }
-                context
-                    .read<CustomerBloc>()
-                    .add(fetchCustomerDetailsByPhone(phone));
-              },
-              child: const Text('Find Customer'),
-            ),
-            const SizedBox(height: 16),
-            BlocListener<CustomerBloc, CustomerState>(
-              listener: (context, state) {
-                if (state is CustomerLoaded) {
-                  customerIdController.text = state.customerId.toString();
-                  customerNameController.text = state.customerName;
-                } else if (state is CustomerError) {
-                  customerIdController.clear();
-                  customerNameController.clear();
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text(state.error)),
-                  );
-                }
-              },
-              child: BlocBuilder<CustomerBloc, CustomerState>(
-                builder: (context, state) {
-                  if (state is CustomerLoading) {
-                    return const Center(child: CircularProgressIndicator());
-                  }
-                  return Column(
-                    children: [
-                      TextField(
-                        controller: customerIdController,
-                        decoration: const InputDecoration(
-                          labelText: 'Customer ID',
-                          border: OutlineInputBorder(),
-                        ),
-                        readOnly: true,
-                      ),
-                      const SizedBox(height: 16),
-                      TextField(
-                        controller: customerNameController,
-                        decoration: const InputDecoration(
-                          labelText: 'Customer Name',
-                          border: OutlineInputBorder(),
-                        ),
-                        readOnly: true,
-                      ),
-                    ],
-                  );
+    return  Scaffold(
+      appBar: AppBar(title: Text('Audio Recorder')),
+      body: BlocBuilder<AudioUploadBloc, AudioUploadState>(
+        builder: (context, state) {
+          if (state is AudioUploadInitial) {
+            return Center(
+              child: ElevatedButton(
+                onPressed: () {
+                  BlocProvider.of<AudioUploadBloc>(context).add(StartRecording());
                 },
+                child: Text('Start Recording'),
               ),
-            ),
-          ],
-        ),
+            );
+          } else if (state is AudioRecordingInProgress) {
+            return Center(
+              child: ElevatedButton(
+                onPressed: () {
+                  BlocProvider.of<AudioUploadBloc>(context).add(StopRecording());
+                },
+                child: Text('Stop Recording'),
+              ),
+            );
+          } else if (state is AudioRecordingSuccess) {
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text('Recording saved at: ${state.filePath}'),
+                  ElevatedButton(
+                    onPressed: () {
+                      BlocProvider.of<AudioUploadBloc>(context).add(UploadRecording(state.filePath));
+                    },
+                    child: Text('Upload Recording'),
+                  ),
+                ],
+              ),
+            );
+          } else if (state is AudioUploadInProgress) {
+            return Center(child: CircularProgressIndicator());
+          } else if (state is AudioUploadSuccess) {
+            return Center(child: Text('Upload Successful'));
+          } else if (state is AudioUploadFailure) {
+            return Center(child: Text('Error: ${state.error}'));
+          } else if (state is AudioRecordingFailure) {
+            return Center(child: Text('Error: ${state.message}'));
+          }
+          return Container();
+        },
       ),
     );
   }
