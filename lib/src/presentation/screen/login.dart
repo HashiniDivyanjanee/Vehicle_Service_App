@@ -99,8 +99,7 @@ class Login extends StatelessWidget {
                 textColor: Colors.white,
                 buttonColor: AppThemes.PrimaryColor,
                 callback: () {
-                  GoRouter.of(context)
-                      .pushNamed(MyAppRouteConstants.homeRoute);
+                  GoRouter.of(context).pushNamed(MyAppRouteConstants.homeRoute);
                 }),
           ],
         ),

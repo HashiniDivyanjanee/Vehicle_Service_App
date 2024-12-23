@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vehicle_service_app/src/logic/bloc/audio/audio_bloc.dart';
+import 'package:vehicle_service_app/src/logic/bloc/audio_upload/audio_upload_bloc.dart';
 
 class VehicalInformation extends StatefulWidget {
   const VehicalInformation({Key? key}) : super(key: key);
@@ -12,58 +13,55 @@ class VehicalInformation extends StatefulWidget {
 class _VehicalInformationState extends State<VehicalInformation> {
   @override
   Widget build(BuildContext context) {
-    return Container();
-    // return BlocProvider(
-    //   create: (context) => AudioBloc(),
-    //   child: Scaffold(
-    //     appBar: AppBar(title: Text('Voice Recorder')),
-    //     body: BlocBuilder<AudioBloc, AudioState>(
-    //       builder: (context, state) {
-    //         final bloc = BlocProvider.of<AudioBloc>(context);
-
-    //         if (state is AudioInitialState) {
-    //           return Center(
-    //             child: ElevatedButton(
-    //               onPressed: () => bloc.add(CheckPermissionEvent()),
-    //               child: Text('Request Permissions'),
-    //             ),
-    //           );
-    //         } else if (state is AudioPermissionGrantedState) {
-    //           return Center(
-    //             child: ElevatedButton(
-    //               onPressed: () => bloc.add(StartRecordingEvent()),
-    //               child: Text('Start Recording'),
-    //             ),
-    //           );
-    //         } else if (state is AudioRecordingState) {
-    //           return Center(
-    //             child: ElevatedButton(
-    //               onPressed: () => bloc.add(StopRecordingEvent()),
-    //               child: Text('Stop Recording'),
-                   
-    //             ),
-    //           );
-    //         } else if (state is AudioRecordedState) {
-    //           return Center(
-    //             child: Column(
-    //               mainAxisAlignment: MainAxisAlignment.center,
-    //               children: [
-    //                 Text('Recording saved at: ${state.filepath}'),
-    //                 ElevatedButton(
-    //                   onPressed: () => bloc.add(StartRecordingEvent()),
-    //                   child: Text('Record Again'),
-    //                 ),
-    //               ],
-    //             ),
-    //           );
-    //         } else if (state is AudioErrorState) {
-    //           return Center(child: Text('Error: ${state.message}'));
-    //         }
-
-    //         return SizedBox.shrink();
-    //       },
-    //     ),
-    //   ),
-    // );
+    return  Scaffold(
+      appBar: AppBar(title: Text('Audio Recorder')),
+      body: BlocBuilder<AudioUploadBloc, AudioUploadState>(
+        builder: (context, state) {
+          if (state is AudioUploadInitial) {
+            return Center(
+              child: ElevatedButton(
+                onPressed: () {
+                  BlocProvider.of<AudioUploadBloc>(context).add(StartRecording());
+                },
+                child: Text('Start Recording'),
+              ),
+            );
+          } else if (state is AudioRecordingInProgress) {
+            return Center(
+              child: ElevatedButton(
+                onPressed: () {
+                  BlocProvider.of<AudioUploadBloc>(context).add(StopRecording());
+                },
+                child: Text('Stop Recording'),
+              ),
+            );
+          } else if (state is AudioRecordingSuccess) {
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text('Recording saved at: ${state.filePath}'),
+                  ElevatedButton(
+                    onPressed: () {
+                      BlocProvider.of<AudioUploadBloc>(context).add(UploadRecording(state.filePath));
+                    },
+                    child: Text('Upload Recording'),
+                  ),
+                ],
+              ),
+            );
+          } else if (state is AudioUploadInProgress) {
+            return Center(child: CircularProgressIndicator());
+          } else if (state is AudioUploadSuccess) {
+            return Center(child: Text('Upload Successful'));
+          } else if (state is AudioUploadFailure) {
+            return Center(child: Text('Error: ${state.error}'));
+          } else if (state is AudioRecordingFailure) {
+            return Center(child: Text('Error: ${state.message}'));
+          }
+          return Container();
+        },
+      ),
+    );
   }
 }
