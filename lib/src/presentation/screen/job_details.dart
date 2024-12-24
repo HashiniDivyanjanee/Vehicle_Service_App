@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vehicle_service_app/src/constant/themes.dart';
+import 'package:vehicle_service_app/src/logic/bloc/audio/audio_bloc.dart';
 import 'package:vehicle_service_app/src/logic/bloc/audio_upload/audio_upload_bloc.dart';
 import 'package:vehicle_service_app/src/logic/bloc/take_image/image_bloc.dart';
-import 'package:vehicle_service_app/src/presentation/screen/image_upload.dart';
+import 'package:vehicle_service_app/src/presentation/tabs/image_upload.dart';
 import 'package:vehicle_service_app/src/presentation/tabs/service_type_tab.dart';
 import 'package:vehicle_service_app/src/presentation/tabs/vehical_information_tab.dart';
 
@@ -18,7 +19,7 @@ class JobDetails extends StatelessWidget {
           create: (context) => ImageBloc(),
         ),
          BlocProvider(
-          create: (context) => AudioUploadBloc(),
+          create: (context) => AudioBloc(),
         )
       ],
       child: DefaultTabController(

@@ -11,7 +11,7 @@ import 'package:vehicle_service_app/src/presentation/screen/customer.dart';
 import 'package:vehicle_service_app/src/presentation/screen/home.dart';
 import 'package:vehicle_service_app/src/presentation/screen/job_details.dart';
 import 'package:vehicle_service_app/src/presentation/screen/login.dart';
-import 'package:vehicle_service_app/src/presentation/screen/image_upload.dart';
+import 'package:vehicle_service_app/src/presentation/tabs/image_upload.dart';
 import 'package:vehicle_service_app/src/presentation/screen/view_job_card.dart';
 
 final GoRouter router = GoRouter(

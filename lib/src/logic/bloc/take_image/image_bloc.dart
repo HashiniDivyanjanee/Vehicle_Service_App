@@ -1,10 +1,8 @@
 import 'dart:io';
-
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 import 'package:image_picker/image_picker.dart';
-
 part 'image_event.dart';
 part 'image_state.dart';
 
