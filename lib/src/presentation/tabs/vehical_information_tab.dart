@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:vehicle_service_app/src/constant/themes.dart';
-import 'package:vehicle_service_app/src/logic/bloc/audio/audio_bloc.dart';
-
 import 'package:vehicle_service_app/src/logic/bloc/audio_upload/audio_upload_bloc.dart';
-import 'package:vehicle_service_app/src/presentation/widgets/buttons.dart';
 
 class VehicalInformation extends StatefulWidget {
   const VehicalInformation({Key? key}) : super(key: key);
@@ -17,58 +13,55 @@ class _VehicalInformationState extends State<VehicalInformation> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocConsumer<AudioBloc, AudioState>(
-        listener: (context, state) {
-          if (state is AudioError) {
-            ScaffoldMessenger.of(context)
-                .showSnackBar(SnackBar(content: Text(state.message)));
-          } else if (state is AudioSaved) {
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              content: Text('Audio Saved Successfully'),
-            ));
-          }
-        },
+      appBar: AppBar(title: Text('Audio Recorder')),
+      body: BlocBuilder<AudioUploadBloc, AudioUploadState>(
         builder: (context, state) {
-          if (state is AudioInitial) {
-            return Center(child: Text('Press the button to start recording'));
-          } else if (state is RecordingInProgress) {
-            return Center(child: Text('Recording...'));
-          } else if (state is RecordingStopped) {
-            return Column(
-              children: [
-                Text('Recording stopped.'),
-                ButtonComponent(
-                    buttonText: "SAVE",
-                    textColor: Colors.white,
-                    buttonColor: AppThemes.PrimaryColor,
-                    callback: () {
-                      context
-                          .read<AudioBloc>()
-                          .add(SaveAudioEvent(audioFile: state.audioFile));
-                    }),
-              ],
-            );
-          } else if (state is AudioSaved) {
+          if (state is AudioUploadInitial) {
             return Center(
-                child: Text(
-              'Audio Saved Successfully',
-              style: TextStyle(color: Colors.green),
-            ));
-          } else {
+              child: ElevatedButton(
+                onPressed: () {
+                  BlocProvider.of<AudioUploadBloc>(context).add(StartRecording());
+                },
+                child: Text('Start Recording'),
+              ),
+            );
+          } else if (state is AudioRecordingInProgress) {
+            return Center(
+              child: ElevatedButton(
+                onPressed: () {
+                  BlocProvider.of<AudioUploadBloc>(context).add(StopRecording());
+                },
+                child: Text('Stop Recording'),
+              ),
+            );
+          } else if (state is AudioRecordingSuccess) {
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text('Recording saved at: ${state.filePath}'),
+                  ElevatedButton(
+                    onPressed: () {
+                      BlocProvider.of<AudioUploadBloc>(context)
+                          .add(UploadRecording(state.filePath));
+                    },
+                    child: Text('Upload Recording'),
+                  ),
+                ],
+              ),
+            );
+          } else if (state is AudioUploadInProgress) {
             return Center(child: CircularProgressIndicator());
+          } else if (state is AudioUploadSuccess) {
+            return Center(child: Text('Upload Successful'));
+          } else if (state is AudioUploadFailure) {
+            return Center(child: Text('Error: ${state.error}'));
+          } else if (state is AudioRecordingFailure) {
+            return Center(child: Text('Error: ${state.message}'));
           }
+          return Container();
         },
       ),
-      floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            final audioBloc = context.read<AudioBloc>();
-            if (audioBloc.state is RecordingInProgress) {
-              audioBloc.add(StopRecordingEvent());
-            } else {
-              audioBloc.add(StartRecordingEvent());
-            }
-          },
-          child: Icon(Icons.mic, color: AppThemes.PrimaryColor)),
     );
   }
 }

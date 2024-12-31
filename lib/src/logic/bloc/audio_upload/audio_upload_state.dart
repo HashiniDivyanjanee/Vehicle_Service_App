@@ -31,9 +31,9 @@ class AudioUploadSuccess extends AudioUploadState{}
 
 class AudioUploadInProgress extends AudioUploadState{}
 
+
 class AudioUploadFailure extends AudioUploadState {
   final String error;
-  
   AudioUploadFailure(this.error);
 
   @override

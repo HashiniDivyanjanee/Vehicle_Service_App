@@ -112,6 +112,6 @@ Widget Card1(BuildContext context) {
             GoRouter.of(context)
                 .pushNamed(MyAppRouteConstants.job_detailsRoute);
           }),
-    ],
+    ], 
   );
 }
