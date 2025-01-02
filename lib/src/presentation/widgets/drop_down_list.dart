@@ -26,7 +26,7 @@ class DropDownList<T> extends StatelessWidget {
       padding: const EdgeInsets.only(left: 25, right: 25, bottom: 15, top: 15),
       child: Container(
         decoration: BoxDecoration(
-            color: AppThemes.TextField_Bg_Color,
+            color: AppThemes.cardBackgroundColor,
             borderRadius: BorderRadius.circular(30)),
         padding: const EdgeInsets.symmetric(horizontal: 2),
         child: DropdownButtonFormField<T>(

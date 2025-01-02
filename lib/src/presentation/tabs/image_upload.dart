@@ -28,7 +28,7 @@ class _ImageUploadState extends State<ImageUpload> {
         },
         builder: (context, state) {
           if (state is ImageInitial) {
-            return Center(child: Text('Take Images to save'));
+            return Center(child: Text('Select Images to save'));
           } else if (state is ImagesPicked) {
             return Column(
               children: [
@@ -36,7 +36,10 @@ class _ImageUploadState extends State<ImageUpload> {
                   child: ListView.builder(
                     itemCount: state.images.length,
                     itemBuilder: (context, index) {
-                      return Image.file(File(state.images[index].path));
+                      return SizedBox(
+                          width: double.infinity,
+                          height: 400,
+                          child: Image.file(File(state.images[index].path)));
                     },
                   ),
                 ),
@@ -47,7 +50,7 @@ class _ImageUploadState extends State<ImageUpload> {
                     callback: () {
                       context
                           .read<ImageBloc>()
-                          .add(SaveImagesEvent(images: state.images));
+                          .add(SaveImagesEvent(images: state.images));  
                     }),
               ],
             );

@@ -13,7 +13,7 @@ class _VehicalInformationState extends State<VehicalInformation> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Audio Recorder')),
+    
       body: BlocBuilder<AudioUploadBloc, AudioUploadState>(
         builder: (context, state) {
           if (state is AudioUploadInitial) {
@@ -32,7 +32,7 @@ class _VehicalInformationState extends State<VehicalInformation> {
                   BlocProvider.of<AudioUploadBloc>(context).add(StopRecording());
                 },
                 child: Text('Stop Recording'),
-              ),
+              ), 
             );
           } else if (state is AudioRecordingSuccess) {
             return Center(

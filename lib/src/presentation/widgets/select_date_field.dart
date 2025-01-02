@@ -36,7 +36,7 @@ class _SelectDateFieldState extends State<SelectDateField> {
     return Container(
       margin: const EdgeInsets.only(bottom: 15, left: 25, right: 25),
       decoration: BoxDecoration(
-          color: AppThemes.TextField_Bg_Color,
+          color: AppThemes.cardBackgroundColor,
           borderRadius: BorderRadius.circular(30)),
       child: TextField(
         style: const TextStyle(
