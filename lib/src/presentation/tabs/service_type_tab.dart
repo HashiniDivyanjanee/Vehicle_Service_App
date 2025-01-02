@@ -1,7 +1,5 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:vehicle_service_app/src/constant/themes.dart';
 import 'package:vehicle_service_app/src/data/repositories/primary_key_setting_Repo.dart';
 import 'package:vehicle_service_app/src/logic/bloc/customer/customer_bloc.dart';
