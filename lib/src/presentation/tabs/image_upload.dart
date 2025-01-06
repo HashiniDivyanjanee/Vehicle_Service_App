@@ -28,7 +28,7 @@ class _ImageUploadState extends State<ImageUpload> {
         },
         builder: (context, state) {
           if (state is ImageInitial) {
-            return Center(child: Text('Select Images to save'));
+            return Center(child: Text('Select Images to Save'));
           } else if (state is ImagesPicked) {
             return Column(
               children: [
