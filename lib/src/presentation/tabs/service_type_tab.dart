@@ -21,14 +21,14 @@ import 'package:vehicle_service_app/src/presentation/widgets/main_title_widget.d
 import 'package:vehicle_service_app/src/utils/datetime_utils.dart';
 import 'package:image_picker/image_picker.dart';
 
-class ServiceType extends StatefulWidget {
-  ServiceType({super.key});
+class JObRegister extends StatefulWidget {
+  JObRegister({super.key});
 
   @override
-  State<ServiceType> createState() => _ServiceTypeState();
+  State<JObRegister> createState() => _JObRegisterState();
 }
 
-class _ServiceTypeState extends State<ServiceType> {
+class _JObRegisterState extends State<JObRegister> {
   final TextEditingController License_PlateController = TextEditingController();
   final TextEditingController MileageController = TextEditingController();
   final TextEditingController BrandController = TextEditingController();

@@ -86,7 +86,7 @@ class JobDetails extends StatelessWidget {
             ),
           ),
           body: TabBarView(
-            children: [ServiceType(), VehicalInformation(), ImageUpload()],
+            children: [JObRegister(), VehicalInformation(), ImageUpload()],
           ),
         ),
       ),
