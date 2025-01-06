@@ -1,21 +1,20 @@
-// part of 'audio_bloc.dart';
+part of 'audio_bloc.dart';
 
-// abstract class AudioEvent extends Equatable {
-//   const AudioEvent();
+sealed class AudioEvent extends Equatable {
+  const AudioEvent();
 
-//   @override
-//   List<Object> get props => [];
-// }
+  @override
+  List<Object> get props => [];
+}
 
-// class StartRecordingEvent extends AudioEvent {}
+class StartRecordingEvent extends AudioEvent {}
 
-// class StopRecordingEvent extends AudioEvent {
-//   // String message;
+class StopRecordingEvent extends AudioEvent {}
 
-//   // StopRecordingEvent(this.message);
+class SaveAudioEvent extends AudioEvent {
+  final File audioFile;
+  SaveAudioEvent({required this.audioFile});
 
-//   // @override
-//   // List<Object> get props => [this.message];
-// }
-
-// class CheckPermissionEvent extends AudioEvent {}
+  @override
+  List<Object> get props => [audioFile];
+}

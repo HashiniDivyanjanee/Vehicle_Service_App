@@ -1,31 +1,36 @@
-// part of 'audio_bloc.dart';
+part of 'audio_bloc.dart';
 
-// abstract class AudioState extends Equatable {
-//   const AudioState();
+sealed class AudioState extends Equatable {
+  const AudioState();
 
-//   @override
-//   List<Object> get props => [];
-// }
+  @override
+  List<Object> get props => [];
+}
 
-// final class AudioInitialState extends AudioState {}
+final class AudioInitial extends AudioState {}
 
-// final class AudioRecordingState extends AudioState {}
+final class RecordingInProgress extends AudioState {}
 
-// final class AudioPermissionGrantedState extends AudioState {}
+final class RecordingStopped extends AudioState {
+  final File audioFile;
+  RecordingStopped(this.audioFile);
 
+  @override
+  List<Object> get props => [audioFile];
+}
 
-// final class AudioRecordedState extends AudioState {
-//   final String filepath;
-//   AudioRecordedState(this.filepath);
+final class AudioSaved extends AudioState {
+  final File audioFile;
+  AudioSaved(this.audioFile);
 
-//   @override
-//   List<Object> get props => [filepath];
-// }
+  @override
+  List<Object> get props => [audioFile];
+}
 
-// final class AudioErrorState extends AudioState {
-//   final String message;
-//   AudioErrorState(this.message);
+final class AudioError extends AudioState {
+  final String message;
+  AudioError(this.message);
 
-//   @override
-//   List<Object> get props => [message];
-// }
+  @override
+  List<Object> get props => [message];
+}

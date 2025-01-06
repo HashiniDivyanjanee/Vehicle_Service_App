@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:vehicle_service_app/src/constant/themes.dart';
 import 'package:vehicle_service_app/src/data/repositories/primary_key_setting_Repo.dart';
@@ -6,6 +7,7 @@ import 'package:vehicle_service_app/src/logic/bloc/jobcard/job_card_event.dart';
 import 'package:vehicle_service_app/src/logic/bloc/primary_key_setting/primary_key_setting_bloc.dart';
 import 'package:vehicle_service_app/src/logic/bloc/primary_key_setting/primary_key_setting_event.dart';
 import 'package:vehicle_service_app/src/logic/bloc/primary_key_setting/primary_key_setting_state.dart';
+import 'package:vehicle_service_app/src/logic/bloc/take_image/image_bloc.dart';
 import 'package:vehicle_service_app/src/presentation/widgets/buttons.dart';
 import 'package:vehicle_service_app/src/presentation/widgets/drop_down_list.dart';
 import 'package:vehicle_service_app/src/presentation/widgets/second_title.dart';
@@ -17,6 +19,7 @@ import 'package:vehicle_service_app/src/logic/bloc/jobcard/job_card_bloc.dart';
 import 'package:vehicle_service_app/src/logic/bloc/jobcard/job_card_state.dart';
 import 'package:vehicle_service_app/src/presentation/widgets/main_title_widget.dart';
 import 'package:vehicle_service_app/src/utils/datetime_utils.dart';
+import 'package:image_picker/image_picker.dart';
 
 class ServiceType extends StatefulWidget {
   ServiceType({super.key});
@@ -39,7 +42,7 @@ class _ServiceTypeState extends State<ServiceType> {
   final customerIdController = TextEditingController();
   final customerPhoneController = TextEditingController();
   final customerNameController = TextEditingController();
-
+  List<File> selectedImages = [];
   String combinedValue = '';
   DateTime? ScheduledDate;
   String? selectedValue;
@@ -71,7 +74,7 @@ class _ServiceTypeState extends State<ServiceType> {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => JobCardBloc(ApiProvider()),
+          create: (contextt) => JobCardBloc(ApiProvider()),
         ),
         BlocProvider(
           create: (context) =>
@@ -81,6 +84,7 @@ class _ServiceTypeState extends State<ServiceType> {
         BlocProvider(
           create: (context) => CustomerBloc(ApiProvider()),
         ),
+        BlocProvider(create: (context) => ImageBloc())
       ],
       child: Scaffold(
         body: BlocConsumer<JobCardBloc, JobCardState>(
@@ -160,8 +164,6 @@ class _ServiceTypeState extends State<ServiceType> {
                                 customerNameController.text =
                                     state.customerName;
                               } else if (state is CustomerError) {
-                                // customerIdController.clear();
-                                // customerNameController.clear();
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(content: Text(state.error)),
                                 );
@@ -367,149 +369,235 @@ class _ServiceTypeState extends State<ServiceType> {
                             obscureText: false,
                             maxLines: 5,
                           ),
+                          const Title_Widget(
+                            title: 'IMAGES',
+                          ),
+                          Second_Title(second_title: 'Select Images to Upload'),
+                          BlocConsumer<ImageBloc, ImageState>(
+                            listener: (context, state) {
+                              if (state is ImagesPicked) {
+                                setState(() {
+                                  selectedImages = state.images
+                                      .map((image) => File(image.path))
+                                      .toList();
+                                });
+                              }
+                            },
+                            builder: (context, state) {
+                              return selectedImages.isNotEmpty
+                                  ? Padding(
+                                    padding: const EdgeInsets.only(top: 15, bottom: 15),
+                                    child: Wrap(
+                                        spacing: 8.0,
+                                        runSpacing: 8.0,
+                                        children: selectedImages
+                                            .map((image) => Stack(
+                                                  children: [
+                                                    SizedBox(
+                                                      width: 120, 
+                                                      height: 120, 
+                                                      child: Image.file(
+                                                        image,
+                                                        fit: BoxFit.cover,
+                                                      ),
+                                                    ),
+                                                    Positioned(
+                                                      right: 0,
+                                                      child: GestureDetector(
+                                                        onTap: () {
+                                                          setState(() {
+                                                            selectedImages.remove(image);
+                                                          });
+                                                        },
+                                                        child: Icon(
+                                                          Icons.cancel,
+                                                          color: Colors.red,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ))
+                                            .toList(),
+                                      ),
+                                  )
+                                  : const Text(" ");
+                            },
+                          ),
+                          Align(
+                            alignment: Alignment.centerRight,
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.only(right: 20, bottom: 15),
+                              child: FloatingActionButton(
+                                onPressed: () {
+                                  context
+                                      .read<ImageBloc>()
+                                      .add(PickImagesEvent());
+                                },
+                                backgroundColor: AppThemes.SecondTextColor,
+                                child:
+                                    const Icon(Icons.add, color: Colors.white),
+                              ),
+                            ),
+                          ),
                           const SizedBox(
                             height: 15,
                           ),
-                          Center(
-                            child: state is JobCardLoading
-                                ? CircularProgressIndicator()
-                                : ButtonComponent(
-                                    buttonText: "SAVE",
-                                    textColor: Colors.white,
-                                    buttonColor: AppThemes.PrimaryColor,
-                                    callback: () {
-                                      final int currentID = int.tryParse(
-                                              combinedValue.replaceAll(
-                                                  RegExp(r'\D'), '')) ??
-                                          0;
-                                      final int latestID = currentID;
-                                      combinedValue =
-                                          '${combinedValue.replaceAll(RegExp(r'\d+'), '')}$latestID';
-                                      context.read<PrimaryKeySettingBloc>().add(
-                                          UpdatePrimaryKeySetting(latestID));
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 15),
+                            child: Center(
+                              child: state is JobCardLoading
+                                  ? CircularProgressIndicator()
+                                  : ButtonComponent(
+                                      buttonText: "SAVE",
+                                      textColor: Colors.white,
+                                      buttonColor: AppThemes.PrimaryColor,
+                                      callback: () {
+                                        final int currentID = int.tryParse(
+                                                combinedValue.replaceAll(
+                                                    RegExp(r'\D'), '')) ??
+                                            0;
+                                        final int latestID = currentID;
+                                        combinedValue =
+                                            '${combinedValue.replaceAll(RegExp(r'\d+'), '')}$latestID';
+                                        context
+                                            .read<PrimaryKeySettingBloc>()
+                                            .add(UpdatePrimaryKeySetting(
+                                                latestID));
 
-                                      final Job_Number = combinedValue;
-                                      final Cust_ID = customerIdController.text;
-                                      final Vehicle_Type = BrandController.text;
-                                      final Brand = BrandController.text;
-                                      final Model = ModelController.text;
-                                      final License_Plate =
-                                          License_PlateController.text;
-                                      final Mileage = MileageController.text;
-                                      final Job_Type = selectedValue;
-                                      final Date = " ";
-                                      final Time = " ";
-                                      final Assigned_emp_Id = " ";
-                                      final Current_Status = "JOB IN";
-                                      final Current_Location = " ";
-                                      final job_barcode = combinedValue;
-                                      final Job_Name1 =
-                                          License_PlateController.text;
-                                      final Job_Name2 = " ";
-                                      final CreateDate = Current_Date;
-                                      final CreateTime = Current_Time;
-                                      final Invoice_ID = " ";
-                                      final Scheduled_Date = ScheduledDate;
-                                      final Scheduled_Time = Current_Time;
-                                      final Customer_Note =
-                                          Customer_NoteController.text;
-                                      final Office_Note =
-                                          Office_NoteController.text;
-                                      final Additional_Remark = " ";
-                                      final Additional_RefNo = " ";
-                                      final Created_Emp_ID = " ";
-                                      final AddKm = " ";
-                                      final NewMileage = " ";
-                                      final InsuranceClaim =
-                                          InsuranceClaimController.text;
-                                      final Year = YearController.text;
-                                      final Color = ColorController.text;
-                                      final Sub_Total = 0.0;
-                                      final Extra_Tax = 0.0;
-                                      final Extra_Tax_Percentage = 0.0;
-                                      final Extra_Discount = 0.0;
-                                      final Extra_Disc_Percentage = 0.0;
-                                      final Advanced_Amount = 0.0;
-                                      final Advanced_Method = " ";
-                                      final Net_Total = 0.0;
-                                      final Net_Total_Without_Advanced = 0.0;
-                                      final Paid_Amount = 0.0;
-                                      final Due_Amount = 0.0;
-                                      final Change_Amount = 0.0;
-                                      final Payment_Methods = " ";
-                                      final Payment_Status = "Unpaid";
-                                      final Cust_Name =
-                                          customerNameController.text;
-                                      final Cust_Phone =
-                                          customerPhoneController.text;
-                                      final FuelLevel = "0";
-                                      final EstimateAmount = 0.0;
-                                      final ShortName = " ";
-                                      final Display_Status = " ";
-                                      final Job_Priority = " ";
-                                      final Job_Category_Type = " ";
-                                      final Cust_VehicleNo = " ";
+                                        final Job_Number = combinedValue;
+                                        final Cust_ID =
+                                            customerIdController.text;
+                                        final Vehicle_Type =
+                                            BrandController.text;
+                                        final Brand = BrandController.text;
+                                        final Model = ModelController.text;
+                                        final License_Plate =
+                                            License_PlateController.text;
+                                        final Mileage = MileageController.text;
+                                        final Job_Type = selectedValue;
+                                        final Date = " ";
+                                        final Time = " ";
+                                        final Assigned_emp_Id = " ";
+                                        final Current_Status = "JOB IN";
+                                        final Current_Location = " ";
+                                        final job_barcode = combinedValue;
+                                        final Job_Name1 =
+                                            License_PlateController.text;
+                                        final Job_Name2 = " ";
+                                        final CreateDate = Current_Date;
+                                        final CreateTime = Current_Time;
+                                        final Invoice_ID = " ";
+                                        final Scheduled_Date = ScheduledDate;
+                                        final Scheduled_Time = Current_Time;
+                                        final Customer_Note =
+                                            Customer_NoteController.text;
+                                        final Office_Note =
+                                            Office_NoteController.text;
+                                        final Additional_Remark = " ";
+                                        final Additional_RefNo = " ";
+                                        final Created_Emp_ID = " ";
+                                        final AddKm = " ";
+                                        final NewMileage = " ";
+                                        final InsuranceClaim =
+                                            InsuranceClaimController.text;
+                                        final Year = YearController.text;
+                                        final Color = ColorController.text;
+                                        final Sub_Total = 0.0;
+                                        final Extra_Tax = 0.0;
+                                        final Extra_Tax_Percentage = 0.0;
+                                        final Extra_Discount = 0.0;
+                                        final Extra_Disc_Percentage = 0.0;
+                                        final Advanced_Amount = 0.0;
+                                        final Advanced_Method = " ";
+                                        final Net_Total = 0.0;
+                                        final Net_Total_Without_Advanced = 0.0;
+                                        final Paid_Amount = 0.0;
+                                        final Due_Amount = 0.0;
+                                        final Change_Amount = 0.0;
+                                        final Payment_Methods = " ";
+                                        final Payment_Status = "Unpaid";
+                                        final Cust_Name =
+                                            customerNameController.text;
+                                        final Cust_Phone =
+                                            customerPhoneController.text;
+                                        final FuelLevel = "0";
+                                        final EstimateAmount = 0.0;
+                                        final ShortName = " ";
+                                        final Display_Status = " ";
+                                        final Job_Priority = " ";
+                                        final Job_Category_Type = " ";
+                                        final Cust_VehicleNo = " ";
 
-                                      BlocProvider.of<JobCardBloc>(context).add(
-                                          saveJobCard(
-                                              Job_Number,
-                                              Cust_ID.toString(),
-                                              Vehicle_Type,
-                                              Brand,
-                                              Model,
-                                              License_Plate,
-                                              Mileage,
-                                              Job_Type.toString(),
-                                              Date,
-                                              Time,
-                                              Assigned_emp_Id,
-                                              Current_Status,
-                                              Current_Location,
-                                              job_barcode,
-                                              Job_Name1.toString(),
-                                              Job_Name2,
-                                              CreateDate,
-                                              CreateTime,
-                                              Invoice_ID,
-                                              Scheduled_Date.toString(),
-                                              Scheduled_Time,
-                                              Customer_Note,
-                                              Office_Note,
-                                              Additional_Remark,
-                                              Additional_RefNo,
-                                              Created_Emp_ID,
-                                              AddKm,
-                                              NewMileage,
-                                              InsuranceClaim,
-                                              Year,
-                                              Color,
-                                              Sub_Total.toString(),
-                                              Extra_Tax.toString(),
-                                              Extra_Tax_Percentage.toString(),
-                                              Extra_Discount.toString(),
-                                              Extra_Disc_Percentage.toString(),
-                                              Advanced_Amount.toString(),
-                                              Advanced_Method,
-                                              Net_Total.toString(),
-                                              Net_Total_Without_Advanced
-                                                  .toString(),
-                                              Paid_Amount.toString(),
-                                              Due_Amount.toString(),
-                                              Change_Amount.toString(),
-                                              Payment_Methods,
-                                              Payment_Status,
-                                              Cust_Name.toString(),
-                                              Cust_Phone.toString(),
-                                              FuelLevel,
-                                              EstimateAmount.toString(),
-                                              ShortName,
-                                              Display_Status,
-                                              Job_Priority,
-                                              Job_Category_Type,
-                                              Cust_VehicleNo));
-
-                                      clear();
-                                    }),
+                                        BlocProvider.of<JobCardBloc>(context)
+                                            .add(saveJobCard(
+                                                Job_Number,
+                                                Cust_ID.toString(),
+                                                Vehicle_Type,
+                                                Brand,
+                                                Model,
+                                                License_Plate,
+                                                Mileage,
+                                                Job_Type.toString(),
+                                                Date,
+                                                Time,
+                                                Assigned_emp_Id,
+                                                Current_Status,
+                                                Current_Location,
+                                                job_barcode,
+                                                Job_Name1.toString(),
+                                                Job_Name2,
+                                                CreateDate,
+                                                CreateTime,
+                                                Invoice_ID,
+                                                Scheduled_Date.toString(),
+                                                Scheduled_Time,
+                                                Customer_Note,
+                                                Office_Note,
+                                                Additional_Remark,
+                                                Additional_RefNo,
+                                                Created_Emp_ID,
+                                                AddKm,
+                                                NewMileage,
+                                                InsuranceClaim,
+                                                Year,
+                                                Color,
+                                                Sub_Total.toString(),
+                                                Extra_Tax.toString(),
+                                                Extra_Tax_Percentage.toString(),
+                                                Extra_Discount.toString(),
+                                                Extra_Disc_Percentage
+                                                    .toString(),
+                                                Advanced_Amount.toString(),
+                                                Advanced_Method,
+                                                Net_Total.toString(),
+                                                Net_Total_Without_Advanced
+                                                    .toString(),
+                                                Paid_Amount.toString(),
+                                                Due_Amount.toString(),
+                                                Change_Amount.toString(),
+                                                Payment_Methods,
+                                                Payment_Status,
+                                                Cust_Name.toString(),
+                                                Cust_Phone.toString(),
+                                                FuelLevel,
+                                                EstimateAmount.toString(),
+                                                ShortName,
+                                                Display_Status,
+                                                Job_Priority,
+                                                Job_Category_Type,
+                                                Cust_VehicleNo));
+                                        context.read<ImageBloc>().add(
+                                              SaveImagesEvent(
+                                                images: selectedImages
+                                                    .map((file) =>
+                                                        XFile(file.path))
+                                                    .toList(),
+                                              ),
+                                            );
+                                        clear();
+                                      }),
+                            ),
                           ),
                           const SizedBox(height: 40),
                         ],

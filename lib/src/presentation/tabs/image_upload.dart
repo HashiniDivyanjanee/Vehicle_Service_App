@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vehicle_service_app/src/constant/themes.dart';
 import 'package:vehicle_service_app/src/logic/bloc/take_image/image_bloc.dart';
-import 'package:vehicle_service_app/src/presentation/widgets/app_bar_widget.dart';
 import 'package:vehicle_service_app/src/presentation/widgets/buttons.dart';
 
 class ImageUpload extends StatefulWidget {
@@ -29,7 +28,7 @@ class _ImageUploadState extends State<ImageUpload> {
         },
         builder: (context, state) {
           if (state is ImageInitial) {
-            return Center(child: Text('Take Images to save'));
+            return Center(child: Text('Select Images to Save'));
           } else if (state is ImagesPicked) {
             return Column(
               children: [
@@ -37,7 +36,10 @@ class _ImageUploadState extends State<ImageUpload> {
                   child: ListView.builder(
                     itemCount: state.images.length,
                     itemBuilder: (context, index) {
-                      return Image.file(File(state.images[index].path));
+                      return SizedBox(
+                          width: double.infinity,
+                          height: 400,
+                          child: Image.file(File(state.images[index].path)));
                     },
                   ),
                 ),
@@ -48,7 +50,7 @@ class _ImageUploadState extends State<ImageUpload> {
                     callback: () {
                       context
                           .read<ImageBloc>()
-                          .add(SaveImagesEvent(images: state.images));
+                          .add(SaveImagesEvent(images: state.images));  
                     }),
               ],
             );
