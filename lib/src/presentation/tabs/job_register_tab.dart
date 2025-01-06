@@ -21,14 +21,14 @@ import 'package:vehicle_service_app/src/presentation/widgets/main_title_widget.d
 import 'package:vehicle_service_app/src/utils/datetime_utils.dart';
 import 'package:image_picker/image_picker.dart';
 
-class JObRegister extends StatefulWidget {
-  JObRegister({super.key});
+class JobRegister extends StatefulWidget {
+  JobRegister({super.key});
 
   @override
-  State<JObRegister> createState() => _JObRegisterState();
+  State<JobRegister> createState() => _JobRegisterState();
 }
 
-class _JObRegisterState extends State<JObRegister> {
+class _JobRegisterState extends State<JobRegister> {
   final TextEditingController License_PlateController = TextEditingController();
   final TextEditingController MileageController = TextEditingController();
   final TextEditingController BrandController = TextEditingController();
@@ -386,16 +386,17 @@ class _JObRegisterState extends State<JObRegister> {
                             builder: (context, state) {
                               return selectedImages.isNotEmpty
                                   ? Padding(
-                                    padding: const EdgeInsets.only(top: 15, bottom: 15),
-                                    child: Wrap(
+                                      padding: const EdgeInsets.only(
+                                          top: 15, bottom: 15),
+                                      child: Wrap(
                                         spacing: 8.0,
                                         runSpacing: 8.0,
                                         children: selectedImages
                                             .map((image) => Stack(
                                                   children: [
                                                     SizedBox(
-                                                      width: 120, 
-                                                      height: 120, 
+                                                      width: 120,
+                                                      height: 120,
                                                       child: Image.file(
                                                         image,
                                                         fit: BoxFit.cover,
@@ -406,7 +407,8 @@ class _JObRegisterState extends State<JObRegister> {
                                                       child: GestureDetector(
                                                         onTap: () {
                                                           setState(() {
-                                                            selectedImages.remove(image);
+                                                            selectedImages
+                                                                .remove(image);
                                                           });
                                                         },
                                                         child: Icon(
@@ -419,7 +421,7 @@ class _JObRegisterState extends State<JObRegister> {
                                                 ))
                                             .toList(),
                                       ),
-                                  )
+                                    )
                                   : const Text(" ");
                             },
                           ),
@@ -587,7 +589,7 @@ class _JObRegisterState extends State<JObRegister> {
                                                 Job_Priority,
                                                 Job_Category_Type,
                                                 Cust_VehicleNo));
-                                        context.read<ImageBloc>().add(
+                                         context.read<ImageBloc>().add(
                                               SaveImagesEvent(
                                                 images: selectedImages
                                                     .map((file) =>

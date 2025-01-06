@@ -5,7 +5,7 @@ import 'package:vehicle_service_app/src/logic/bloc/audio/audio_bloc.dart';
 import 'package:vehicle_service_app/src/logic/bloc/audio_upload/audio_upload_bloc.dart';
 import 'package:vehicle_service_app/src/logic/bloc/take_image/image_bloc.dart';
 import 'package:vehicle_service_app/src/presentation/tabs/image_upload.dart';
-import 'package:vehicle_service_app/src/presentation/tabs/service_type_tab.dart';
+import 'package:vehicle_service_app/src/presentation/tabs/job_register_tab.dart';
 import 'package:vehicle_service_app/src/presentation/tabs/vehical_information_tab.dart';
 
 class JobDetails extends StatelessWidget {
@@ -86,7 +86,7 @@ class JobDetails extends StatelessWidget {
             ),
           ),
           body: TabBarView(
-            children: [JObRegister(), VehicalInformation(), ImageUpload()],
+            children: [JobRegister(), VehicalInformation(), ImageUpload()],
           ),
         ),
       ),

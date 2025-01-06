@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:image_picker/image_picker.dart';
-// import 'package:image_picker/image_picker.dart';
 import 'package:vehicle_service_app/src/data/model/job_card.dart';
 
 class ApiProvider {
@@ -222,10 +221,11 @@ class ApiProvider {
     }
   }
 
- Future<Map<String, dynamic>> fetchCustomerByPhone(String phone) async {
+  Future<Map<String, dynamic>> fetchCustomerByPhone(String phone) async {
     try {
-      final response = await dio.get('/customer', queryParameters: {'phone': phone});
-      if (response.statusCode == 200) {     
+      final response =
+          await dio.get('/customer', queryParameters: {'phone': phone});
+      if (response.statusCode == 200) {
         final List<dynamic> customerData = response.data['data'];
         if (customerData.isNotEmpty) {
           return customerData.first as Map<String, dynamic>;
@@ -246,22 +246,23 @@ class ApiProvider {
     }
   }
 
-  // ** JOB CARD FETCH ** 
-Future<List<JobCardModel>> fetchJobCardDetails() async {
-  final response = await dio.get('/jobcard');
-  if (response.statusCode == 200) {
-    final jsonResponse = response.data;
-    if (jsonResponse is Map && jsonResponse['data'] is List) {
-      final data = jsonResponse['data'] as List;
-      return data.map((json) => JobCardModel.fromJson(json as Map<String, dynamic>)).toList();
+  // ** JOB CARD FETCH **
+  Future<List<JobCardModel>> fetchJobCardDetails() async {
+    final response = await dio.get('/jobcard');
+    if (response.statusCode == 200) {
+      final jsonResponse = response.data;
+      if (jsonResponse is Map && jsonResponse['data'] is List) {
+        final data = jsonResponse['data'] as List;
+        return data
+            .map((json) => JobCardModel.fromJson(json as Map<String, dynamic>))
+            .toList();
+      } else {
+        throw Exception('Unexpected response format');
+      }
     } else {
-      throw Exception('Unexpected response format');
+      throw Exception('Failed to fetch data: ${response.statusCode}');
     }
-  } else {
-    throw Exception('Failed to fetch data: ${response.statusCode}');
   }
-}
-
 
 // -- PUT API --
   Future<void> updatePrimaryKeySetting(int latestID) async {
@@ -277,8 +278,7 @@ Future<List<JobCardModel>> fetchJobCardDetails() async {
     }
   }
 
-
- Future<List<File>> pickImages() async {
+  Future<List<File>> pickImages() async {
     final ImagePicker picker = ImagePicker();
     final List<XFile>? pickedFiles = await picker.pickMultiImage();
 
@@ -289,29 +289,29 @@ Future<List<JobCardModel>> fetchJobCardDetails() async {
     return pickedFiles.map((file) => File(file.path)).toList();
   }
 
- Future<List<String>> uploadImages(List<File> images) async {
-  try {
-    final List<MultipartFile> files = images.map((file) {
-      return MultipartFile.fromFileSync(file.path, filename: file.path.split('/').last);
-    }).toList();
+  Future<List<String>> uploadImages(List<File> images) async {
+    try {
+      final List<MultipartFile> files = images.map((file) {
+        return MultipartFile.fromFileSync(file.path,
+            filename: file.path.split('/').last);
+      }).toList();
 
-    final FormData formData = FormData.fromMap({'files': files});
+      final FormData formData = FormData.fromMap({'files': files});
 
-    final response = await dio.post(
-      '/upload', 
-      data: formData,
-    );
+      final response = await dio.post(
+        '/upload',
+        data: formData,
+      );
 
-    if (response.statusCode == 200) {
-      final List<String> filePaths = List<String>.from(response.data['filePaths']);
-      return filePaths;
-    } else {
-      throw Exception('Failed to upload images');
+      if (response.statusCode == 200) {
+        final List<String> filePaths =
+            List<String>.from(response.data['filePaths']);
+        return filePaths;
+      } else {
+        throw Exception('Failed to upload images');
+      }
+    } catch (e) {
+      throw Exception('Error during image upload: $e');
     }
-  } catch (e) {
-    throw Exception('Error during image upload: $e');
   }
-}
-
-
 }
