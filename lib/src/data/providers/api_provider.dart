@@ -1,9 +1,11 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
-// import 'package:image_picker/image_picker.dart';
 import 'package:vehicle_service_app/src/data/model/job_card.dart';
+import 'package:vehicle_service_app/src/logic/bloc/text_speach/text_speach_bloc.dart';
+import 'package:path_provider/path_provider.dart';
 
 class ApiProvider {
   final Dio dio = Dio(BaseOptions(baseUrl: 'http://192.168.1.13:5000/api'));
@@ -222,22 +224,23 @@ class ApiProvider {
     }
   }
 
- Future<Map<String, dynamic>> fetchCustomerByPhone(String phone) async {
+  Future<Map<String, dynamic>> fetchCustomerByPhone(String phone) async {
     try {
-      final response = await dio.get('/customer', queryParameters: {'phone': phone});
-      if (response.statusCode == 200) {     
+      final response =
+          await dio.get('/customer', queryParameters: {'phone': phone});
+      if (response.statusCode == 200) {
         final List<dynamic> customerData = response.data['data'];
         if (customerData.isNotEmpty) {
           return customerData.first as Map<String, dynamic>;
         } else {
-          throw Exception('Customer not found');
+          throw Exception('Customer not Found');
         }
       } else {
-        throw Exception('Customer not found');
+        throw Exception('Customer not Found');
       }
     } on DioError catch (e) {
       if (e.response != null && e.response!.statusCode == 404) {
-        throw Exception('Customer not found');
+        throw Exception('Customer not Found');
       } else {
         throw Exception('Network error: ${e.message}');
       }
@@ -246,22 +249,23 @@ class ApiProvider {
     }
   }
 
-  // ** JOB CARD FETCH ** 
-Future<List<JobCardModel>> fetchJobCardDetails() async {
-  final response = await dio.get('/jobcard');
-  if (response.statusCode == 200) {
-    final jsonResponse = response.data;
-    if (jsonResponse is Map && jsonResponse['data'] is List) {
-      final data = jsonResponse['data'] as List;
-      return data.map((json) => JobCardModel.fromJson(json as Map<String, dynamic>)).toList();
+  // ** JOB CARD FETCH **
+  Future<List<JobCardModel>> fetchJobCardDetails() async {
+    final response = await dio.get('/jobcard');
+    if (response.statusCode == 200) {
+      final jsonResponse = response.data;
+      if (jsonResponse is Map && jsonResponse['data'] is List) {
+        final data = jsonResponse['data'] as List;
+        return data
+            .map((json) => JobCardModel.fromJson(json as Map<String, dynamic>))
+            .toList();
+      } else {
+        throw Exception('Unexpected response format');
+      }
     } else {
-      throw Exception('Unexpected response format');
+      throw Exception('Failed to fetch data: ${response.statusCode}');
     }
-  } else {
-    throw Exception('Failed to fetch data: ${response.statusCode}');
   }
-}
-
 
 // -- PUT API --
   Future<void> updatePrimaryKeySetting(int latestID) async {
@@ -277,41 +281,71 @@ Future<List<JobCardModel>> fetchJobCardDetails() async {
     }
   }
 
-
- Future<List<File>> pickImages() async {
+  Future<List<File>> pickImages() async {
     final ImagePicker picker = ImagePicker();
     final List<XFile>? pickedFiles = await picker.pickMultiImage();
 
     if (pickedFiles == null || pickedFiles.isEmpty) {
-      throw Exception('No images selected');
+      throw Exception('No Images Selected');
     }
 
     return pickedFiles.map((file) => File(file.path)).toList();
   }
 
- Future<List<String>> uploadImages(List<File> images) async {
-  try {
-    final List<MultipartFile> files = images.map((file) {
-      return MultipartFile.fromFileSync(file.path, filename: file.path.split('/').last);
-    }).toList();
+  Future<List<String>> uploadImages(List<File> images) async {
+    try {
+      final List<MultipartFile> files = images.map((file) {
+        return MultipartFile.fromFileSync(file.path,
+            filename: file.path.split('/').last);
+      }).toList();
 
-    final FormData formData = FormData.fromMap({'files': files});
+      final FormData formData = FormData.fromMap({'files': files});
 
-    final response = await dio.post(
-      '/upload', 
-      data: formData,
-    );
+      final response = await dio.post(
+        '/upload',
+        data: formData,
+      );
 
-    if (response.statusCode == 200) {
-      final List<String> filePaths = List<String>.from(response.data['filePaths']);
-      return filePaths;
-    } else {
-      throw Exception('Failed to upload images');
+      if (response.statusCode == 200) {
+        final List<String> filePaths =
+            List<String>.from(response.data['filePaths']);
+        return filePaths;
+      } else {
+        throw Exception('Failed to upload images');
+      }
+    } catch (e) {
+      throw Exception('Error during image upload: $e');
     }
-  } catch (e) {
-    throw Exception('Error during image upload: $e');
   }
-}
 
+
+//speech to text
+  Future<void> saveAudio(String text) async {
+    try {
+
+      final directory = await getApplicationDocumentsDirectory();
+      final filePath = '${directory.path}/${DateTime.now().millisecondsSinceEpoch}.txt';
+      final file = File(filePath);
+      await file.writeAsString(text);
+      print('File saved at: $filePath');
+
+      final formData = FormData.fromMap({
+        'file': await MultipartFile.fromFile(file.path, filename: file.path.split('/').last),
+      });
+
+      final response = await dio.post(
+        '/textaudio',
+        data: formData,
+      );
+
+      if (response.statusCode == 200) {
+        print('File uploaded successfully');
+      } else {
+        throw Exception('Failed to upload file');
+      }
+    } catch (e) {
+      throw Exception('Failed to save audio: $e');
+    }
+  }
 
 }
