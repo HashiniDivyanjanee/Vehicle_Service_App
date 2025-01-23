@@ -1,8 +1,10 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:vehicle_service_app/src/data/model/job_card.dart';
+import 'package:vehicle_service_app/src/logic/bloc/text_speach/text_speach_bloc.dart';
 
 class ApiProvider {
   final Dio dio = Dio(BaseOptions(baseUrl: 'http://192.168.1.13:5000/api'));
@@ -230,14 +232,14 @@ class ApiProvider {
         if (customerData.isNotEmpty) {
           return customerData.first as Map<String, dynamic>;
         } else {
-          throw Exception('Customer not found');
+          throw Exception('Customer not Found');
         }
       } else {
-        throw Exception('Customer not found');
+        throw Exception('Customer not Found');
       }
     } on DioError catch (e) {
       if (e.response != null && e.response!.statusCode == 404) {
-        throw Exception('Customer not found');
+        throw Exception('Customer not Found');
       } else {
         throw Exception('Network error: ${e.message}');
       }
@@ -283,7 +285,7 @@ class ApiProvider {
     final List<XFile>? pickedFiles = await picker.pickMultiImage();
 
     if (pickedFiles == null || pickedFiles.isEmpty) {
-      throw Exception('No images selected');
+      throw Exception('No Images Selected');
     }
 
     return pickedFiles.map((file) => File(file.path)).toList();
@@ -314,4 +316,43 @@ class ApiProvider {
       throw Exception('Error during image upload: $e');
     }
   }
+
+
+  Future<void> _saveAudio( SaveAudio event, Emitter<TextSpeachState> emit) async {
+    try {
+      // Save the file locally first
+      final directoryPath = 'D:/Audio_folder';
+      final directory = Directory(directoryPath);
+
+      if (!await directory.exists()) {
+        await directory.create(recursive: true);
+      }
+
+      final filePath =
+          '${directory.path}/${DateTime.now().millisecondsSinceEpoch}.txt';
+      final file = File(filePath);
+      await file.writeAsString(event.text);
+      print('File saved at: $filePath');
+
+      // Upload the file to the server
+      final formData = FormData.fromMap({
+        'file': await MultipartFile.fromFile(file.path, filename: file.path.split('/').last),
+      });
+
+      final response = await dio.post(
+        'http://192.168.1.13:5000/api/upload',
+        data: formData,
+      );
+
+      if (response.statusCode == 200) {
+        print('File uploaded successfully');
+        emit(SpeechSaved(filePath));
+      } else {
+        throw Exception('Failed to upload file');
+      }
+    } catch (e) {
+      emit(SpeechError("Failed to save audio: $e"));
+    }
+
+}
 }
