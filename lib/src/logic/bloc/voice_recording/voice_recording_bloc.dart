@@ -4,7 +4,6 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_sound/public/flutter_sound_player.dart';
 import 'package:flutter_sound/public/flutter_sound_recorder.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:record/record.dart';
 part 'voice_recording_event.dart';
 part 'voice_recording_state.dart';
 

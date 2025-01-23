@@ -1,10 +1,6 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:vehicle_service_app/src/constant/themes.dart';
-import 'package:vehicle_service_app/src/logic/bloc/take_image/image_bloc.dart';
 import 'package:vehicle_service_app/src/logic/bloc/voice_recording/voice_recording_bloc.dart';
-import 'package:vehicle_service_app/src/presentation/widgets/buttons.dart';
 
 class ImageUpload extends StatefulWidget {
   ImageUpload({super.key});
