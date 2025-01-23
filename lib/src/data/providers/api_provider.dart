@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:vehicle_service_app/src/data/model/job_card.dart';
 import 'package:vehicle_service_app/src/logic/bloc/text_speach/text_speach_bloc.dart';
+import 'package:path_provider/path_provider.dart';
 
 class ApiProvider {
   final Dio dio = Dio(BaseOptions(baseUrl: 'http://192.168.1.13:5000/api'));
@@ -318,41 +319,33 @@ class ApiProvider {
   }
 
 
-  Future<void> _saveAudio( SaveAudio event, Emitter<TextSpeachState> emit) async {
+//speech to text
+  Future<void> saveAudio(String text) async {
     try {
-      // Save the file locally first
-      final directoryPath = 'D:/Audio_folder';
-      final directory = Directory(directoryPath);
 
-      if (!await directory.exists()) {
-        await directory.create(recursive: true);
-      }
-
-      final filePath =
-          '${directory.path}/${DateTime.now().millisecondsSinceEpoch}.txt';
+      final directory = await getApplicationDocumentsDirectory();
+      final filePath = '${directory.path}/${DateTime.now().millisecondsSinceEpoch}.txt';
       final file = File(filePath);
-      await file.writeAsString(event.text);
+      await file.writeAsString(text);
       print('File saved at: $filePath');
 
-      // Upload the file to the server
       final formData = FormData.fromMap({
         'file': await MultipartFile.fromFile(file.path, filename: file.path.split('/').last),
       });
 
       final response = await dio.post(
-        'http://192.168.1.13:5000/api/upload',
+        '/textaudio',
         data: formData,
       );
 
       if (response.statusCode == 200) {
         print('File uploaded successfully');
-        emit(SpeechSaved(filePath));
       } else {
         throw Exception('Failed to upload file');
       }
     } catch (e) {
-      emit(SpeechError("Failed to save audio: $e"));
+      throw Exception('Failed to save audio: $e');
     }
+  }
 
-}
 }
